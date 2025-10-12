@@ -160,7 +160,7 @@ class BlogSystem {
       // Get list of markdown files
       const markdownFiles = [
         "Labsheet 3.md",
-        "PentingnyaUIUXDalamPengembanganAplikasi.md",
+        "pentingnyauiuxdalampengembangaplikasi.md",
       ];
 
       const posts = [];
