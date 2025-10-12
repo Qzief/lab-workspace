@@ -159,11 +159,8 @@ class BlogSystem {
     try {
       // Get list of markdown files
       const markdownFiles = [
-        "tips-merawat-galon.md",
-        "belajar-javascript-modern.md",
-        "css-grid-vs-flexbox.md",
-        "testing.md",
         "Labsheet 3.md",
+        "PentingnyaUIUXDalamPengembanganAplikasi.md",
       ];
 
       const posts = [];
