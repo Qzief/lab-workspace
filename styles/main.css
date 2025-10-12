@@ -1,0 +1,400 @@
+/* Custom Glassmorphism Styles */
+.glass-card {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.5),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+}
+
+.glass-nav {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.2);
+}
+
+.glass-button {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px 0 rgba(31, 38, 135, 0.3);
+}
+
+.glass-input {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-input:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px 0 rgba(59, 130, 246, 0.3);
+}
+
+.glass-logo {
+  box-shadow: 0 4px 16px 0 rgba(59, 130, 246, 0.3),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.5);
+  border-radius: 4px;
+  backdrop-filter: blur(10px);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.7);
+}
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.5);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.7);
+}
+
+/* Animation for cards */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Masonry Layout */
+.masonry-container {
+  column-count: 1;
+  column-gap: 1.5rem;
+  column-fill: balance;
+}
+
+@media (min-width: 640px) {
+  .masonry-container {
+    column-count: 2;
+  }
+}
+
+@media (min-width: 1024px) {
+  .masonry-container {
+    column-count: 3;
+  }
+}
+
+@media (min-width: 1280px) {
+  .masonry-container {
+    column-count: 4;
+  }
+}
+
+.masonry-item {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  margin-bottom: 1.5rem;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Ensure smooth transitions for masonry items */
+.masonry-item .glass-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.masonry-item .glass-card:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+
+/* Alternative: CSS Grid Masonry (for browsers that support it) */
+@supports (grid-template-rows: masonry) {
+  .masonry-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-rows: masonry;
+    gap: 1.5rem;
+    column-count: unset;
+    column-gap: unset;
+  }
+
+  .masonry-item {
+    margin-bottom: 0;
+  }
+}
+
+/* Fallback for older browsers - use flexbox */
+@supports not (column-count: 1) {
+  .masonry-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .masonry-item {
+    flex: 1 1 300px;
+    margin-bottom: 0;
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Stagger animation for multiple cards */
+.fade-in-up:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.fade-in-up:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.fade-in-up:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.fade-in-up:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.fade-in-up:nth-child(5) {
+  animation-delay: 0.5s;
+}
+.fade-in-up:nth-child(6) {
+  animation-delay: 0.6s;
+}
+
+/* Prose styling for markdown content */
+.prose {
+  color: #374151;
+}
+
+.dark .prose {
+  color: #d1d5db;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  color: #111827;
+  font-weight: 600;
+}
+
+.dark .prose h1,
+.dark .prose h2,
+.dark .prose h3,
+.dark .prose h4,
+.dark .prose h5,
+.dark .prose h6 {
+  color: #f9fafb;
+}
+
+.prose a {
+  color: #3b82f6;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.prose a:hover {
+  border-bottom-color: #3b82f6;
+}
+
+.prose code {
+  background: rgba(59, 130, 246, 0.1);
+  color: #1f2937;
+  padding: 0.2em 0.4em;
+  border-radius: 0.375rem;
+  font-size: 0.875em;
+}
+
+.dark .prose code {
+  background: rgba(59, 130, 246, 0.2);
+  color: #e5e7eb;
+}
+
+.prose pre {
+  background: rgba(0, 0, 0, 0.05);
+  color: #1f2937;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.dark .prose pre {
+  background: rgba(255, 255, 255, 0.05);
+  color: #e5e7eb;
+}
+
+.prose blockquote {
+  border-left: 4px solid #3b82f6;
+  padding-left: 1rem;
+  font-style: italic;
+  background: rgba(59, 130, 246, 0.05);
+  color: #4b5563;
+  border-radius: 0 0.5rem 0.5rem 0;
+  margin: 1rem 0;
+  padding: 1rem;
+}
+
+.dark .prose blockquote {
+  background: rgba(59, 130, 246, 0.1);
+  color: #d1d5db;
+}
+
+.prose p {
+  color: #4b5563;
+}
+
+.dark .prose p {
+  color: #d1d5db;
+}
+
+.prose li {
+  color: #4b5563;
+}
+
+.dark .prose li {
+  color: #d1d5db;
+}
+
+.prose strong {
+  color: #111827;
+}
+
+.dark .prose strong {
+  color: #f9fafb;
+}
+
+/* Loading animation */
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(59, 130, 246, 0.3);
+  border-radius: 50%;
+  border-top-color: #3b82f6;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .glass-card {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .prose {
+    font-size: 0.95rem;
+  }
+
+  .prose h1 {
+    font-size: 1.75rem;
+  }
+  .prose h2 {
+    font-size: 1.5rem;
+  }
+  .prose h3 {
+    font-size: 1.25rem;
+  }
+}
+
+/* Focus styles for accessibility */
+.glass-button:focus,
+.glass-input:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Mode grid kiri→kanan untuk jumlah artikel sedikit */
+.masonry-container.grid-mode {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  /* Matikan perilaku kolom agar tidak mengisi vertikal terlebih dahulu */
+  column-count: initial;
+  column-gap: initial;
+}
+
+.masonry-container.grid-mode .masonry-item {
+  /* Pastikan item berperilaku sebagai grid item biasa */
+  break-inside: auto;
+  margin-bottom: 0;
+  display: block;
+  width: auto;
+}
+
+/* utilitas line-clamp untuk menyamakan tinggi konten kartu */
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
