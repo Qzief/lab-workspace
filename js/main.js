@@ -1,25 +1,25 @@
 // Blog System with Markdown Support
 class BlogSystem {
   constructor() {
-    this.posts = []
-    this.filteredPosts = []
-    this.currentPost = null
-    this.isDarkMode = localStorage.getItem("darkMode") === "true"
+    this.posts = [];
+    this.filteredPosts = [];
+    this.currentPost = null;
+    this.isDarkMode = localStorage.getItem("darkMode") === "true";
 
-    this.availableTags = []
-    this.selectedTags = new Set()
-    this.currentQuery = ""
+    this.availableTags = [];
+    this.selectedTags = new Set();
+    this.currentQuery = "";
 
-    this.pageSize = 8
-    this.visibleCount = this.pageSize
+    this.pageSize = 8;
+    this.visibleCount = this.pageSize;
 
-    this.init()
+    this.init();
   }
 
   async init() {
-    this.setupDarkMode()
-    this.setupEventListeners()
-    this.setupRouting()
+    this.setupDarkMode();
+    this.setupEventListeners();
+    this.setupRouting();
     if (window.marked && typeof window.marked.setOptions === "function") {
       window.marked.setOptions({
         gfm: true,
@@ -27,104 +27,104 @@ class BlogSystem {
         smartypants: true,
         headerIds: true,
         mangle: false,
-      })
+      });
     }
-    await this.loadPosts()
+    await this.loadPosts();
 
-    this.buildAvailableTags()
-    this.setupTagFilter()
-    this.setupTagFilterMobile()
+    this.buildAvailableTags();
+    this.setupTagFilter();
+    this.setupTagFilterMobile();
 
-    this.renderPosts()
-    this.setupLoadMore()
-    this.handleInitialRoute()
+    this.renderPosts();
+    this.setupLoadMore();
+    this.handleInitialRoute();
   }
 
   setupRouting() {
     // Listen for hash changes
     window.addEventListener("hashchange", () => {
-      this.handleRouteChange()
-    })
+      this.handleRouteChange();
+    });
   }
 
   handleInitialRoute() {
     // Handle initial route when page loads
-    this.handleRouteChange()
+    this.handleRouteChange();
   }
 
   handleRouteChange() {
-    const hash = window.location.hash
+    const hash = window.location.hash;
 
     if (hash.startsWith("#/")) {
-      const postId = hash.substring(2) // Remove '#/' prefix
-      const post = this.posts.find((p) => p.id === postId)
+      const postId = hash.substring(2); // Remove '#/' prefix
+      const post = this.posts.find((p) => p.id === postId);
 
       if (post) {
-        this.openPost(postId, false) // false = don't update hash again
+        this.openPost(postId, false); // false = don't update hash again
       } else {
         // Post not found, redirect to home
-        this.showHomePage()
+        this.showHomePage();
       }
     } else {
       // No hash or invalid hash, show home page
-      this.showHomePage()
+      this.showHomePage();
     }
   }
 
   setupDarkMode() {
-    const html = document.documentElement
-    const darkModeToggle = document.getElementById("darkModeToggle")
+    const html = document.documentElement;
+    const darkModeToggle = document.getElementById("darkModeToggle");
 
     if (this.isDarkMode) {
-      html.classList.add("dark")
-      this.setHljsTheme(true)
+      html.classList.add("dark");
+      this.setHljsTheme(true);
     } else {
-      this.setHljsTheme(false)
+      this.setHljsTheme(false);
     }
 
     darkModeToggle.addEventListener("click", () => {
-      this.isDarkMode = !this.isDarkMode
-      html.classList.toggle("dark")
-      localStorage.setItem("darkMode", this.isDarkMode)
-      this.setHljsTheme(this.isDarkMode)
-    })
+      this.isDarkMode = !this.isDarkMode;
+      html.classList.toggle("dark");
+      localStorage.setItem("darkMode", this.isDarkMode);
+      this.setHljsTheme(this.isDarkMode);
+    });
   }
 
   setupEventListeners() {
     // Search functionality
-    const searchInput = document.getElementById("searchInput")
-    const mobileSearchInput = document.getElementById("mobileSearchInput")
+    const searchInput = document.getElementById("searchInput");
+    const mobileSearchInput = document.getElementById("mobileSearchInput");
 
     const handleSearch = (e) => {
-      const query = e.target.value.toLowerCase().trim()
-      this.currentQuery = query
-      this.visibleCount = this.pageSize
-      this.applyFilters()
-    }
+      const query = e.target.value.toLowerCase().trim();
+      this.currentQuery = query;
+      this.visibleCount = this.pageSize;
+      this.applyFilters();
+    };
 
-    searchInput.addEventListener("input", handleSearch)
-    mobileSearchInput.addEventListener("input", handleSearch)
+    searchInput.addEventListener("input", handleSearch);
+    mobileSearchInput.addEventListener("input", handleSearch);
 
     // Sync search inputs
     searchInput.addEventListener("input", (e) => {
-      mobileSearchInput.value = e.target.value
-    })
+      mobileSearchInput.value = e.target.value;
+    });
 
     mobileSearchInput.addEventListener("input", (e) => {
-      searchInput.value = e.target.value
-    })
+      searchInput.value = e.target.value;
+    });
 
     // Back button
     document.getElementById("backButton").addEventListener("click", () => {
-      this.showHomePage()
-    })
+      this.showHomePage();
+    });
 
     // Keyboard navigation
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
-        this.showHomePage()
+        this.showHomePage();
       }
-    })
+    });
   }
 
   async loadPosts() {
@@ -136,33 +136,33 @@ class BlogSystem {
         "css-grid-vs-flexbox.md",
         "testing.md",
         "Labsheet 3.md",
-      ]
+      ];
 
-      const posts = []
+      const posts = [];
 
       for (const filename of markdownFiles) {
         try {
-          const response = await fetch(`posts/${encodeURIComponent(filename)}`)
-          if (!response.ok) continue
+          const response = await fetch(`posts/${encodeURIComponent(filename)}`);
+          if (!response.ok) continue;
 
-          const content = await response.text()
-          const post = this.parseMarkdownPost(content, filename)
+          const content = await response.text();
+          const post = this.parseMarkdownPost(content, filename);
           if (post) {
-            posts.push(post)
+            posts.push(post);
           }
         } catch (error) {
-          console.warn(`Failed to load ${filename}:`, error)
+          console.warn(`Failed to load ${filename}:`, error);
         }
       }
 
       // Sort posts by date (newest first)
-      this.posts = posts.sort((a, b) => new Date(b.date) - new Date(a.date))
-      this.filteredPosts = [...this.posts]
+      this.posts = posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+      this.filteredPosts = [...this.posts];
     } catch (error) {
-      console.error("Error loading posts:", error)
+      console.error("Error loading posts:", error);
       // Fallback to empty array
-      this.posts = []
-      this.filteredPosts = []
+      this.posts = [];
+      this.filteredPosts = [];
     }
     // this.renderPopular();
   }
@@ -170,22 +170,22 @@ class BlogSystem {
   parseMarkdownPost(content, filename) {
     try {
       // Simple frontmatter parser
-      const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/
-      const match = content.match(frontmatterRegex)
+      const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/;
+      const match = content.match(frontmatterRegex);
 
       if (!match) {
-        console.warn(`No frontmatter found in ${filename}`)
-        return null
+        console.warn(`No frontmatter found in ${filename}`);
+        return null;
       }
 
-      const [, frontmatterStr, markdownContent] = match
-      const frontmatter = this.parseFrontmatter(frontmatterStr)
+      const [, frontmatterStr, markdownContent] = match;
+      const frontmatter = this.parseFrontmatter(frontmatterStr);
 
       // Generate ID from filename
       const id = filename
         .replace(".md", "")
         .replace(/[^a-z0-9]/gi, "-")
-        .toLowerCase()
+        .toLowerCase();
 
       // Unescape code fences so Marked can parse them (handles \"\`\`\`\" → \"\`\`\`\")
       // also normalize line endings to be safe
@@ -193,7 +193,7 @@ class BlogSystem {
         .replace(/\\```/g, "```") // opening/closing fenced code blocks
         .replace(/\\`/g, "`") // inline code that was escaped
         .replace(/\r\n?/g, "\n") // normalize CRLF to LF
-        .trim()
+        .trim();
 
       return {
         id,
@@ -204,39 +204,39 @@ class BlogSystem {
         category: frontmatter.category || "Uncategorized",
         author: frontmatter.author || "Anonymous",
         content: unescapedContent,
-      }
+      };
     } catch (error) {
-      console.error(`Error parsing ${filename}:`, error)
-      return null
+      console.error(`Error parsing ${filename}:`, error);
+      return null;
     }
   }
 
   parseFrontmatter(frontmatterStr) {
-    const frontmatter = {}
-    const lines = frontmatterStr.split("\n")
+    const frontmatter = {};
+    const lines = frontmatterStr.split("\n");
 
     for (const line of lines) {
-      const trimmedLine = line.trim()
-      if (!trimmedLine) continue
+      const trimmedLine = line.trim();
+      if (!trimmedLine) continue;
 
-      const colonIndex = trimmedLine.indexOf(":")
-      if (colonIndex === -1) continue
+      const colonIndex = trimmedLine.indexOf(":");
+      if (colonIndex === -1) continue;
 
-      const key = trimmedLine.substring(0, colonIndex).trim()
-      let value = trimmedLine.substring(colonIndex + 1).trim()
+      const key = trimmedLine.substring(0, colonIndex).trim();
+      let value = trimmedLine.substring(colonIndex + 1).trim();
 
       // Handle arrays (simple format: [item1, item2, item3])
       if (value.startsWith("[") && value.endsWith("]")) {
         value = value
           .slice(1, -1)
           .split(",")
-          .map((item) => item.trim())
+          .map((item) => item.trim());
       }
 
-      frontmatter[key] = value
+      frontmatter[key] = value;
     }
 
-    return frontmatter
+    return frontmatter;
   }
 
   generateExcerpt(content) {
@@ -248,128 +248,136 @@ class BlogSystem {
       .replace(/`(.*?)`/g, "$1") // Remove inline code
       .replace(/\[([^\]]+)\]$$[^)]+$$/g, "$1") // Remove links
       .replace(/```[\s\S]*?```/g, "") // Remove code blocks
-      .trim()
+      .trim();
 
-    const firstParagraph = plainText.split("\n\n")[0]
-    return firstParagraph.length > 150 ? firstParagraph.substring(0, 150) + "..." : firstParagraph
+    const firstParagraph = plainText.split("\n\n")[0];
+    return firstParagraph.length > 150
+      ? firstParagraph.substring(0, 150) + "..."
+      : firstParagraph;
   }
 
   buildAvailableTags() {
-    const set = new Set()
-    this.posts.forEach((p) => (Array.isArray(p.tags) ? p.tags : []).forEach((t) => set.add(String(t))))
-    this.availableTags = Array.from(set).sort((a, b) => a.localeCompare(b, "id-ID", { sensitivity: "base" }))
+    const set = new Set();
+    this.posts.forEach((p) =>
+      (Array.isArray(p.tags) ? p.tags : []).forEach((t) => set.add(String(t)))
+    );
+    this.availableTags = Array.from(set).sort((a, b) =>
+      a.localeCompare(b, "id-ID", { sensitivity: "base" })
+    );
   }
 
   setupTagFilter() {
-    const btn = document.getElementById("tagFilterButton")
-    const dd = document.getElementById("tagDropdown")
-    const list = document.getElementById("tagList")
-    const clearBtn = document.getElementById("clearTagsBtn")
+    const btn = document.getElementById("tagFilterButton");
+    const dd = document.getElementById("tagDropdown");
+    const list = document.getElementById("tagList");
+    const clearBtn = document.getElementById("clearTagsBtn");
 
-    if (!btn || !dd || !list || !clearBtn) return
+    if (!btn || !dd || !list || !clearBtn) return;
 
     // Toggle dropdown
     const toggle = () => {
-      const isHidden = dd.classList.contains("hidden")
-      dd.classList.toggle("hidden")
-      btn.setAttribute("aria-expanded", isHidden ? "true" : "false")
-    }
+      const isHidden = dd.classList.contains("hidden");
+      dd.classList.toggle("hidden");
+      btn.setAttribute("aria-expanded", isHidden ? "true" : "false");
+    };
 
     btn.addEventListener("click", (e) => {
-      e.stopPropagation()
-      toggle()
-    })
+      e.stopPropagation();
+      toggle();
+    });
 
     // Close jika klik di luar
     document.addEventListener("click", (e) => {
       if (!dd.classList.contains("hidden")) {
-        const within = dd.contains(e.target) || btn.contains(e.target)
+        const within = dd.contains(e.target) || btn.contains(e.target);
         if (!within) {
-          dd.classList.add("hidden")
-          btn.setAttribute("aria-expanded", "false")
+          dd.classList.add("hidden");
+          btn.setAttribute("aria-expanded", "false");
         }
       }
-    })
+    });
 
     // Render list awal
-    this.renderTagList()
+    this.renderTagList();
 
     // Delegasi perubahan checkbox
     list.addEventListener("change", (e) => {
-      const target = e.target
+      const target = e.target;
       if (target && target.matches('input[type="checkbox"][data-tag]')) {
-        const raw = target.getAttribute("data-tag") || ""
-        const tag = raw.toString()
+        const raw = target.getAttribute("data-tag") || "";
+        const tag = raw.toString();
         if (target.checked) {
-          this.selectedTags.add(tag.toLowerCase())
+          this.selectedTags.add(tag.toLowerCase());
         } else {
-          this.selectedTags.delete(tag.toLowerCase())
+          this.selectedTags.delete(tag.toLowerCase());
         }
-        this.updateSelectedTagCount()
-        this.applyFilters()
+        this.updateSelectedTagCount();
+        this.applyFilters();
         // sinkronkan daftar desktop
-        this.renderTagListMobile()
+        this.renderTagListMobile();
       }
-    })
+    });
 
     // Clear tags
     clearBtn.addEventListener("click", (e) => {
-      e.preventDefault()
-      this.selectedTags.clear()
-      this.renderTagList()
-      this.renderTagListMobile()
-      this.updateSelectedTagCount()
-      this.applyFilters()
-    })
+      e.preventDefault();
+      this.selectedTags.clear();
+      this.renderTagList();
+      this.renderTagListMobile();
+      this.updateSelectedTagCount();
+      this.applyFilters();
+    });
   }
 
   renderTagList() {
-    const list = document.getElementById("tagList")
-    if (!list) return
+    const list = document.getElementById("tagList");
+    if (!list) return;
 
     list.innerHTML = this.availableTags
       .map((tag) => {
-        const id = `tag-${tag.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`
-        const checked = this.selectedTags.has(tag.toLowerCase()) ? "checked" : ""
+        const id = `tag-${tag.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+        const checked = this.selectedTags.has(tag.toLowerCase())
+          ? "checked"
+          : "";
         return `
           <label for="${id}" class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-white/40 dark:hover:bg-gray-700/40 transition-colors cursor-pointer">
             <input id="${id}" type="checkbox" data-tag="${tag}" class="accent-blue-600" ${checked} />
             <span class="text-sm text-gray-700 dark:text-gray-200">${tag}</span>
           </label>
-        `
+        `;
       })
-      .join("")
-    this.updateSelectedTagCount()
+      .join("");
+    this.updateSelectedTagCount();
   }
 
   updateSelectedTagCount() {
-    const badge = document.getElementById("selectedTagCount")
-    const mobileBadge = document.getElementById("mobileSelectedTagCount")
-    const count = this.selectedTags.size
+    const badge = document.getElementById("selectedTagCount");
+    const mobileBadge = document.getElementById("mobileSelectedTagCount");
+    const count = this.selectedTags.size;
 
     if (badge) {
       if (count > 0) {
-        badge.textContent = String(count)
-        badge.classList.remove("hidden")
+        badge.textContent = String(count);
+        badge.classList.remove("hidden");
       } else {
-        badge.classList.add("hidden")
+        badge.classList.add("hidden");
       }
     }
     if (mobileBadge) {
       if (count > 0) {
-        mobileBadge.textContent = String(count)
-        mobileBadge.classList.remove("hidden")
+        mobileBadge.textContent = String(count);
+        mobileBadge.classList.remove("hidden");
       } else {
-        mobileBadge.classList.add("hidden")
+        mobileBadge.classList.add("hidden");
       }
     }
   }
 
   applyFilters() {
-    const q = (this.currentQuery || "").toLowerCase()
+    const q = (this.currentQuery || "").toLowerCase();
 
     // Start dari semua posts
-    let result = [...this.posts]
+    let result = [...this.posts];
 
     // Filter berdasarkan query teks
     if (q) {
@@ -380,29 +388,29 @@ class BlogSystem {
           post.content.toLowerCase().includes(q) ||
           post.tags.some((tag) => (tag || "").toLowerCase().includes(q)) ||
           post.category.toLowerCase().includes(q) ||
-          post.author.toLowerCase().includes(q),
-      )
+          post.author.toLowerCase().includes(q)
+      );
     }
 
     // Filter berdasarkan selected tags (match ANY dari tag terpilih)
     if (this.selectedTags.size > 0) {
       result = result.filter((post) => {
-        const lowerTags = post.tags.map((t) => (t || "").toLowerCase())
+        const lowerTags = post.tags.map((t) => (t || "").toLowerCase());
         for (const sel of this.selectedTags) {
-          if (lowerTags.includes(sel)) return true
+          if (lowerTags.includes(sel)) return true;
         }
-        return false
-      })
+        return false;
+      });
     }
 
-    this.filteredPosts = result
-    this.visibleCount = this.pageSize
-    this.renderPosts()
+    this.filteredPosts = result;
+    this.visibleCount = this.pageSize;
+    this.renderPosts();
   }
 
   filterPosts(query) {
     if (!query) {
-      this.filteredPosts = [...this.posts]
+      this.filteredPosts = [...this.posts];
     } else {
       this.filteredPosts = this.posts.filter(
         (post) =>
@@ -411,40 +419,42 @@ class BlogSystem {
           post.content.toLowerCase().includes(query) ||
           post.tags.some((tag) => tag.toLowerCase().includes(query)) ||
           post.category.toLowerCase().includes(query) ||
-          post.author.toLowerCase().includes(query),
-      )
+          post.author.toLowerCase().includes(query)
+      );
     }
-    this.visibleCount = this.pageSize
-    this.renderPosts()
+    this.visibleCount = this.pageSize;
+    this.renderPosts();
   }
 
   renderPosts() {
-    const container = document.getElementById("blogPosts")
-    const noResults = document.getElementById("noResults")
-    const postCount = document.getElementById("postCount")
-    const loadMoreWrap = document.getElementById("loadMoreWrap")
+    const container = document.getElementById("blogPosts");
+    const noResults = document.getElementById("noResults");
+    const postCount = document.getElementById("postCount");
+    const loadMoreWrap = document.getElementById("loadMoreWrap");
 
-    const useGridLTR = false
-    container.classList.toggle("grid-mode", useGridLTR)
+    const useGridLTR = false;
+    container.classList.toggle("grid-mode", useGridLTR);
 
     // Update post count
-    postCount.textContent = `${this.filteredPosts.length} artikel`
+    postCount.textContent = `${this.filteredPosts.length} artikel`;
 
     if (this.filteredPosts.length === 0) {
-      container.innerHTML = ""
-      noResults.classList.remove("hidden")
-      if (loadMoreWrap) loadMoreWrap.classList.add("hidden")
-      return
+      container.innerHTML = "";
+      noResults.classList.remove("hidden");
+      if (loadMoreWrap) loadMoreWrap.classList.add("hidden");
+      return;
     }
 
-    noResults.classList.add("hidden")
+    noResults.classList.add("hidden");
 
-    const visible = this.filteredPosts.slice(0, this.visibleCount)
+    const visible = this.filteredPosts.slice(0, this.visibleCount);
 
     container.innerHTML = visible
       .map(
         (post) => `
-          <a class="block py-5 group" onclick="blogSystem.openPost('${post.id}', true)">
+          <a class="block py-5 group" onclick="blogSystem.openPost('${
+            post.id
+          }', true)">
             <div class="flex items-start justify-between gap-4">
               <div class="min-w-0">
                 <div class="flex flex-wrap gap-2 mb-2">
@@ -453,7 +463,7 @@ class BlogSystem {
                     .map(
                       (tag) => `
                     <span class="px-2.5 py-0.5 text-xs font-medium rounded-md border border-blue-200/50 text-blue-700 dark:text-blue-300 dark:border-blue-500/20">${tag}</span>
-                  `,
+                  `
                     )
                     .join("")}
                 </div>
@@ -472,15 +482,15 @@ class BlogSystem {
               </svg>
             </div>
           </a>
-        `,
+        `
       )
-      .join("")
+      .join("");
 
     if (loadMoreWrap) {
       if (this.filteredPosts.length > this.visibleCount) {
-        loadMoreWrap.classList.remove("hidden")
+        loadMoreWrap.classList.remove("hidden");
       } else {
-        loadMoreWrap.classList.add("hidden")
+        loadMoreWrap.classList.add("hidden");
       }
     }
 
@@ -488,20 +498,20 @@ class BlogSystem {
   }
 
   openPost(postId, updateHash = true) {
-    const post = this.posts.find((p) => p.id === postId)
-    if (!post) return
+    const post = this.posts.find((p) => p.id === postId);
+    if (!post) return;
 
-    this.incrementView(post.id)
-    this.currentPost = post
-    if (updateHash) window.location.hash = `#/${postId}`
+    this.incrementView(post.id);
+    this.currentPost = post;
+    if (updateHash) window.location.hash = `#/${postId}`;
 
-    document.getElementById("heroSection").style.display = "none"
-    document.getElementById("blogPostsSection").style.display = "none"
+    document.getElementById("heroSection").style.display = "none";
+    document.getElementById("blogPostsSection").style.display = "none";
 
-    const articlePage = document.getElementById("articlePage")
-    articlePage.classList.remove("hidden")
+    const articlePage = document.getElementById("articlePage");
+    articlePage.classList.remove("hidden");
 
-    const articleMeta = document.getElementById("articleMeta")
+    const articleMeta = document.getElementById("articleMeta");
     articleMeta.innerHTML = `
       <div class="flex flex-wrap gap-2 mb-3">
         ${post.tags
@@ -510,7 +520,7 @@ class BlogSystem {
           <span class="px-2.5 py-0.5 text-xs font-medium rounded-md border border-blue-200/50 text-blue-700 dark:text-blue-300 dark:border-blue-500/20">
             ${tag}
           </span>
-        `,
+        `
           )
           .join("")}
       </div>
@@ -537,55 +547,57 @@ class BlogSystem {
           ${post.category}
         </div>
       </div>
-    `
+    `;
 
-    const articleContent = document.getElementById("articleContent")
-    const marked = window.marked
-    const normalizedContent = (post.content || "").replace(/^```mysql/gm, "```sql").replace(/^```js/gm, "```javascript")
+    const articleContent = document.getElementById("articleContent");
+    const marked = window.marked;
+    const normalizedContent = (post.content || "")
+      .replace(/^```mysql/gm, "```sql")
+      .replace(/^```js/gm, "```javascript");
 
-    articleContent.innerHTML = marked.parse(normalizedContent)
+    articleContent.innerHTML = marked.parse(normalizedContent);
 
-    this.enhanceCodeBlocks()
-    window.scrollTo(0, 0)
+    this.enhanceCodeBlocks();
+    window.scrollTo(0, 0);
 
-    const backBtn = document.getElementById("backToHomeBtn")
-    if (backBtn) backBtn.onclick = () => this.showHomePage()
+    const backBtn = document.getElementById("backToHomeBtn");
+    if (backBtn) backBtn.onclick = () => this.showHomePage();
 
-    const scrollBtn = document.getElementById("scrollTopBtn")
+    const scrollBtn = document.getElementById("scrollTopBtn");
     if (scrollBtn) {
       const onScroll = () => {
-        scrollBtn.classList.toggle("hidden", window.scrollY < 200)
-      }
-      window.addEventListener("scroll", onScroll, { passive: true })
+        scrollBtn.classList.toggle("hidden", window.scrollY < 200);
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
       scrollBtn.onclick = (e) => {
-        e.preventDefault()
-        window.scrollTo({ top: 0, behavior: "smooth" })
-      }
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      };
       // ensure initial state
-      scrollBtn.classList.add("hidden")
+      scrollBtn.classList.add("hidden");
     }
 
-    this.renderRecommendations(post.id)
+    this.renderRecommendations(post.id);
   }
 
   showHomePage() {
     // Update URL hash to empty
     if (window.location.hash) {
-      window.location.hash = ""
+      window.location.hash = "";
     }
 
     // Hide article page
-    const articlePage = document.getElementById("articlePage")
-    articlePage.classList.add("hidden")
+    const articlePage = document.getElementById("articlePage");
+    articlePage.classList.add("hidden");
 
     // Show home page content
-    document.getElementById("heroSection").style.display = "block"
-    document.getElementById("blogPostsSection").style.display = "block"
+    document.getElementById("heroSection").style.display = "block";
+    document.getElementById("blogPostsSection").style.display = "block";
 
     // Scroll to top
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
 
-    this.currentPost = null
+    this.currentPost = null;
   }
 
   formatDate(dateString) {
@@ -593,187 +605,194 @@ class BlogSystem {
       year: "numeric",
       month: "long",
       day: "numeric",
-    }
-    return new Date(dateString).toLocaleDateString("id-ID", options)
+    };
+    return new Date(dateString).toLocaleDateString("id-ID", options);
   }
 
   setupTagFilterMobile() {
-    const btn = document.getElementById("mobileTagFilterButton")
-    const dd = document.getElementById("mobileTagDropdown")
-    const list = document.getElementById("mobileTagList")
-    const clearBtn = document.getElementById("mobileClearTagsBtn")
+    const btn = document.getElementById("mobileTagFilterButton");
+    const dd = document.getElementById("mobileTagDropdown");
+    const list = document.getElementById("mobileTagList");
+    const clearBtn = document.getElementById("mobileClearTagsBtn");
 
-    if (!btn || !dd || !list || !clearBtn) return
+    if (!btn || !dd || !list || !clearBtn) return;
 
     const toggle = () => {
-      const isHidden = dd.classList.contains("hidden")
-      dd.classList.toggle("hidden")
-      btn.setAttribute("aria-expanded", isHidden ? "true" : "false")
-    }
+      const isHidden = dd.classList.contains("hidden");
+      dd.classList.toggle("hidden");
+      btn.setAttribute("aria-expanded", isHidden ? "true" : "false");
+    };
 
     btn.addEventListener("click", (e) => {
-      e.stopPropagation()
-      toggle()
-    })
+      e.stopPropagation();
+      toggle();
+    });
 
     document.addEventListener("click", (e) => {
       if (!dd.classList.contains("hidden")) {
-        const within = dd.contains(e.target) || btn.contains(e.target)
+        const within = dd.contains(e.target) || btn.contains(e.target);
         if (!within) {
-          dd.classList.add("hidden")
-          btn.setAttribute("aria-expanded", "false")
+          dd.classList.add("hidden");
+          btn.setAttribute("aria-expanded", "false");
         }
       }
-    })
+    });
 
     // render awal
-    this.renderTagListMobile()
+    this.renderTagListMobile();
 
     // perubahan checkbox
     list.addEventListener("change", (e) => {
-      const target = e.target
+      const target = e.target;
       if (target && target.matches('input[type="checkbox"][data-tag]')) {
-        const raw = target.getAttribute("data-tag") || ""
-        const tag = raw.toString()
+        const raw = target.getAttribute("data-tag") || "";
+        const tag = raw.toString();
         if (target.checked) {
-          this.selectedTags.add(tag.toLowerCase())
+          this.selectedTags.add(tag.toLowerCase());
         } else {
-          this.selectedTags.delete(tag.toLowerCase())
+          this.selectedTags.delete(tag.toLowerCase());
         }
-        this.updateSelectedTagCount()
-        this.applyFilters()
+        this.updateSelectedTagCount();
+        this.applyFilters();
         // sinkronkan daftar desktop
-        this.renderTagList()
+        this.renderTagList();
       }
-    })
+    });
 
     // hapus semua tag
     clearBtn.addEventListener("click", (e) => {
-      e.preventDefault()
-      this.selectedTags.clear()
-      this.renderTagListMobile()
-      this.renderTagList()
-      this.updateSelectedTagCount()
-      this.applyFilters()
-    })
+      e.preventDefault();
+      this.selectedTags.clear();
+      this.renderTagListMobile();
+      this.renderTagList();
+      this.updateSelectedTagCount();
+      this.applyFilters();
+    });
   }
 
   renderTagListMobile() {
-    const list = document.getElementById("mobileTagList")
-    if (!list) return
+    const list = document.getElementById("mobileTagList");
+    if (!list) return;
 
     list.innerHTML = this.availableTags
       .map((tag) => {
-        const id = `mobile-tag-${tag.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`
-        const checked = this.selectedTags.has(tag.toLowerCase()) ? "checked" : ""
+        const id = `mobile-tag-${tag
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")}`;
+        const checked = this.selectedTags.has(tag.toLowerCase())
+          ? "checked"
+          : "";
         return `
           <label for="${id}" class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-white/40 dark:hover:bg-gray-700/40 transition-colors cursor-pointer">
             <input id="${id}" type="checkbox" data-tag="${tag}" class="accent-blue-600" ${checked} />
             <span class="text-sm text-gray-700 dark:text-gray-200">${tag}</span>
           </label>
-        `
+        `;
       })
-      .join("")
-    this.updateSelectedTagCount()
+      .join("");
+    this.updateSelectedTagCount();
   }
 
   // Sinkronisasi tema highlight (light/dark)
   setHljsTheme(isDark) {
-    const light = document.getElementById("hljs-light")
-    const dark = document.getElementById("hljs-dark")
-    if (!light || !dark) return
+    const light = document.getElementById("hljs-light");
+    const dark = document.getElementById("hljs-dark");
+    if (!light || !dark) return;
     if (isDark) {
-      light.setAttribute("disabled", "true")
-      dark.removeAttribute("disabled")
+      light.setAttribute("disabled", "true");
+      dark.removeAttribute("disabled");
     } else {
-      dark.setAttribute("disabled", "true")
-      light.removeAttribute("disabled")
+      dark.setAttribute("disabled", "true");
+      light.removeAttribute("disabled");
     }
   }
 
   // Highlight code + fitur "klik untuk salin"
   enhanceCodeBlocks() {
-    const articleContent = document.getElementById("articleContent")
-    if (!articleContent) return
+    const articleContent = document.getElementById("articleContent");
+    if (!articleContent) return;
 
-    const codeBlocks = articleContent.querySelectorAll("pre > code")
+    const codeBlocks = articleContent.querySelectorAll("pre > code");
     codeBlocks.forEach((codeEl) => {
-      const pre = codeEl.parentElement
-      if (!pre) return
+      const pre = codeEl.parentElement;
+      if (!pre) return;
 
       // Hindari double-enhance
-      if (pre.parentElement && pre.parentElement.classList.contains("code-wrapper")) {
+      if (
+        pre.parentElement &&
+        pre.parentElement.classList.contains("code-wrapper")
+      ) {
         // Sudah di-wrap sebelumnya: tetap highlight ulang jika perlu
       } else {
         // Bungkus pre dengan wrapper untuk posisi tombol
-        const wrapper = document.createElement("div")
-        wrapper.className = "code-wrapper relative"
-        pre.parentNode.insertBefore(wrapper, pre)
-        wrapper.appendChild(pre)
+        const wrapper = document.createElement("div");
+        wrapper.className = "code-wrapper relative";
+        pre.parentNode.insertBefore(wrapper, pre);
+        wrapper.appendChild(pre);
 
         // Tombol salin
-        const btn = document.createElement("button")
-        btn.type = "button"
+        const btn = document.createElement("button");
+        btn.type = "button";
         btn.className =
-          "code-copy-btn absolute top-2 right-2 z-10 glass-button px-3 py-1.5 rounded-lg text-xs font-medium text-gray-700 dark:text-gray-300 bg-white/40 dark:bg-gray-800/40 border border-white/20 dark:border-gray-700/20 hover:bg-white/60 dark:hover:bg-gray-700/60 transition-all"
-        btn.textContent = "Salin"
-        btn.setAttribute("aria-label", "Salin kode")
-        wrapper.appendChild(btn)
+          "code-copy-btn absolute top-2 right-2 z-10 glass-button px-3 py-1.5 rounded-lg text-xs font-medium text-gray-700 dark:text-gray-300 bg-white/40 dark:bg-gray-800/40 border border-white/20 dark:border-gray-700/20 hover:bg-white/60 dark:hover:bg-gray-700/60 transition-all";
+        btn.textContent = "Salin";
+        btn.setAttribute("aria-label", "Salin kode");
+        wrapper.appendChild(btn);
 
         const copyHandler = async (e) => {
           // Bila klik tombol, jangan bubble ke pre untuk menghindari trigger ganda
-          e && e.stopPropagation && e.stopPropagation()
+          e && e.stopPropagation && e.stopPropagation();
           try {
-            await navigator.clipboard.writeText(codeEl.innerText || "")
-            const prev = btn.textContent
-            btn.textContent = "Disalin!"
+            await navigator.clipboard.writeText(codeEl.innerText || "");
+            const prev = btn.textContent;
+            btn.textContent = "Disalin!";
             setTimeout(() => {
-              btn.textContent = prev
-            }, 1500)
+              btn.textContent = prev;
+            }, 1500);
           } catch (err) {
-            console.error("Gagal menyalin:", err)
-            const prev = btn.textContent
-            btn.textContent = "Gagal!"
+            console.error("Gagal menyalin:", err);
+            const prev = btn.textContent;
+            btn.textContent = "Gagal!";
             setTimeout(() => {
-              btn.textContent = prev
-            }, 1500)
+              btn.textContent = prev;
+            }, 1500);
           }
-        }
+        };
 
-        btn.addEventListener("click", copyHandler)
+        btn.addEventListener("click", copyHandler);
 
         // Klik di area pre juga menyalin
         if (!pre.dataset.copyBound) {
-          pre.dataset.copyBound = "1"
-          pre.style.cursor = "pointer"
-          pre.title = "Klik untuk menyalin kode"
-          pre.addEventListener("click", copyHandler)
+          pre.dataset.copyBound = "1";
+          pre.style.cursor = "pointer";
+          pre.title = "Klik untuk menyalin kode";
+          pre.addEventListener("click", copyHandler);
         }
       }
 
       // Highlight menggunakan highlight.js bila tersedia
       if (window.hljs && typeof window.hljs.highlightElement === "function") {
         try {
-          window.hljs.highlightElement(codeEl)
+          window.hljs.highlightElement(codeEl);
         } catch (e) {
           // fallback diam
         }
       }
-    })
+    });
   }
 
   getViewCount(id) {
     try {
-      return Number.parseInt(localStorage.getItem(`views:${id}`) || "0", 10)
+      return Number.parseInt(localStorage.getItem(`views:${id}`) || "0", 10);
     } catch {
-      return 0
+      return 0;
     }
   }
 
   incrementView(id) {
     try {
-      const next = this.getViewCount(id) + 1
-      localStorage.setItem(`views:${id}`, String(next))
+      const next = this.getViewCount(id) + 1;
+      localStorage.setItem(`views:${id}`, String(next));
     } catch {}
   }
 
@@ -782,22 +801,22 @@ class BlogSystem {
       ...p,
       views: this.getViewCount(p.id),
       likes: 0, // reserved if you add likes later
-    }))
+    }));
     withStats.sort((a, b) => {
-      if (b.views !== a.views) return b.views - a.views
-      if (b.likes !== a.likes) return b.likes - a.likes
-      return new Date(b.date) - new Date(a.date)
-    })
-    return withStats.slice(0, Math.min(limit, withStats.length))
+      if (b.views !== a.views) return b.views - a.views;
+      if (b.likes !== a.likes) return b.likes - a.likes;
+      return new Date(b.date) - new Date(a.date);
+    });
+    return withStats.slice(0, Math.min(limit, withStats.length));
   }
 
   renderPopular() {
-    const list = document.getElementById("popularList")
-    if (!list) return
-    const popular = this.computePopularPosts(5)
+    const list = document.getElementById("popularList");
+    if (!list) return;
+    const popular = this.computePopularPosts(5);
     if (popular.length === 0) {
-      list.innerHTML = `<li class="text-sm text-gray-500 dark:text-gray-400">Belum ada data populer.</li>`
-      return
+      list.innerHTML = `<li class="text-sm text-gray-500 dark:text-gray-400">Belum ada data populer.</li>`;
+      return;
     }
     list.innerHTML = popular
       .map(
@@ -808,44 +827,49 @@ class BlogSystem {
           ${p.title}
         </a>
       </li>
-    `,
+    `
       )
-      .join("")
+      .join("");
   }
 
   setupLoadMore() {
-    const btn = document.getElementById("loadMoreBtn")
-    if (!btn) return
+    const btn = document.getElementById("loadMoreBtn");
+    if (!btn) return;
     btn.addEventListener("click", () => {
-      this.visibleCount += this.pageSize
-      this.renderPosts()
-    })
+      this.visibleCount += this.pageSize;
+      this.renderPosts();
+    });
   }
 
   renderRecommendations(currentId) {
-    const recoWrap = document.getElementById("recommendations")
-    const recoList = document.getElementById("recoList")
-    if (!recoWrap || !recoList) return
+    const recoWrap = document.getElementById("recommendations");
+    const recoList = document.getElementById("recoList");
+    if (!recoWrap || !recoList) return;
 
-    const base = this.posts.filter((p) => p.id !== currentId)
+    const base = this.posts.filter((p) => p.id !== currentId);
     // prioritize same category and shared tags, then latest
-    const current = this.posts.find((p) => p.id === currentId)
+    const current = this.posts.find((p) => p.id === currentId);
     const picks = base
       .map((p) => {
-        let score = 0
-        if (current?.category && p.category === current.category) score += 2
-        const shared = current?.tags?.filter?.((t) => p.tags?.includes?.(t))?.length || 0
-        score += shared
-        score += Math.max(0, 10 - Math.min(10, Math.floor((Date.now() - new Date(p.date)) / 86400000)))
-        return { p, score }
+        let score = 0;
+        if (current?.category && p.category === current.category) score += 2;
+        const shared =
+          current?.tags?.filter?.((t) => p.tags?.includes?.(t))?.length || 0;
+        score += shared;
+        score += Math.max(
+          0,
+          10 -
+            Math.min(10, Math.floor((Date.now() - new Date(p.date)) / 86400000))
+        );
+        return { p, score };
       })
       .sort((a, b) => b.score - a.score)
       .slice(0, 3)
-      .map(({ p }) => p)
+      .map(({ p }) => p);
 
     if (!picks.length) {
-      recoWrap.classList.add("hidden")
-      return
+      recoWrap.classList.add("hidden");
+      return;
     }
 
     recoList.innerHTML = picks
@@ -857,20 +881,20 @@ class BlogSystem {
              onclick="blogSystem.openPost('${p.id}', true); return false;">
             ${p.title}
           </a>
-        </li>`,
+        </li>`
       )
-      .join("")
-    recoWrap.classList.remove("hidden")
+      .join("");
+    recoWrap.classList.remove("hidden");
   }
 }
 
 // Initialize the blog system when DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
-  window.blogSystem = new BlogSystem()
-})
+  window.blogSystem = new BlogSystem();
+});
 
 // Add some utility CSS classes for line clamping
-const style = document.createElement("style")
+const style = document.createElement("style");
 style.textContent = `
     .line-clamp-2 {
         display: -webkit-box;
@@ -891,5 +915,5 @@ style.textContent = `
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
         gap: 20px;
     }
-`
-document.head.appendChild(style)
+`;
+document.head.appendChild(style);
