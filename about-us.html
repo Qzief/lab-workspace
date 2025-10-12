@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Us - Lab WorkSpace</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      id="hljs-light"
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    />
+    <link
+      id="hljs-dark"
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css"
+      disabled
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              segoe: ["Segoe UI", "system-ui", "sans-serif"],
+            },
+            colors: {
+              "win-blue": "#0078d4",
+              "win-light": "#f3f3f3",
+              "win-dark": "#1e1e1e",
+              "fluent-blue": "#005a9e",
+              "fluent-light": "#f8f9fa",
+              "fluent-dark": "#202020",
+              acrylic: "rgba(255, 255, 255, 0.8)",
+              mica: "rgba(243, 243, 243, 0.5)",
+            },
+            borderRadius: {
+              fluent: "8px",
+              "fluent-lg": "12px",
+            },
+            boxShadow: {
+              fluent: "0 4px 16px rgba(0, 0, 0, 0.1)",
+              "fluent-hover": "0 8px 32px rgba(0, 0, 0, 0.15)",
+            },
+            backdropBlur: {
+              fluent: "20px",
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Custom Glassmorphism Styles with Fluent Design */
+      .glass-card {
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37),
+          inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 12px;
+      }
+
+      .glass-card:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 12px 40px rgba(31, 38, 135, 0.5),
+          inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+      }
+
+      .glass-nav {
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        background: rgba(255, 255, 255, 0.8);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      }
+
+      .glass-button {
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        background: rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 8px;
+      }
+
+      .glass-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(59, 130, 246, 0.2);
+        background: rgba(255, 255, 255, 0.8);
+      }
+
+      .glass-input {
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        background: rgba(255, 255, 255, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 8px;
+      }
+
+      .glass-input:focus {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+        background: rgba(255, 255, 255, 0.6);
+      }
+
+      .glass-logo {
+        box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3),
+          inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+      }
+
+      /* Mica-like background */
+      .mica-bg {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.1) 0%,
+          rgba(255, 255, 255, 0.05) 100%
+        );
+        background-image: radial-gradient(
+            circle at 25% 25%,
+            rgba(255, 255, 255, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 75% 75%,
+            rgba(255, 255, 255, 0.05) 0%,
+            transparent 50%
+          );
+      }
+
+      /* Dark mode adjustments */
+      .dark .glass-card {
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .dark .glass-nav {
+        background: rgba(0, 0, 0, 0.8);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .dark .glass-button {
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .dark .glass-button:hover {
+        background: rgba(0, 0, 0, 0.6);
+      }
+
+      .dark .glass-input {
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .dark .glass-input:focus {
+        background: rgba(0, 0, 0, 0.5);
+      }
+
+      .dark .mica-bg {
+        background: linear-gradient(
+          135deg,
+          rgba(0, 0, 0, 0.1) 0%,
+          rgba(0, 0, 0, 0.05) 100%
+        );
+        background-image: radial-gradient(
+            circle at 25% 25%,
+            rgba(0, 0, 0, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 75% 75%,
+            rgba(0, 0, 0, 0.05) 0%,
+            transparent 50%
+          );
+      }
+
+      /* Smooth scrolling */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: rgba(59, 130, 246, 0.5);
+        border-radius: 4px;
+        backdrop-filter: blur(10px);
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(59, 130, 246, 0.7);
+      }
+
+      /* Dark mode scrollbar */
+      .dark ::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.2);
+      }
+
+      .dark ::-webkit-scrollbar-thumb {
+        background: rgba(156, 163, 175, 0.5);
+      }
+
+      .dark ::-webkit-scrollbar-thumb:hover {
+        background: rgba(156, 163, 175, 0.7);
+      }
+
+      /* Animation for cards */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .fade-in-up {
+        animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      }
+
+      /* Prose styling for markdown content */
+      .prose {
+        color: #374151;
+      }
+
+      .dark .prose {
+        color: #d1d5db;
+      }
+
+      .prose h1,
+      .prose h2,
+      .prose h3,
+      .prose h4,
+      .prose h5,
+      .prose h6 {
+        color: #111827;
+        font-weight: 600;
+      }
+
+      .dark .prose h1,
+      .dark .prose h2,
+      .dark .prose h3,
+      .dark .prose h4,
+      .dark .prose h5,
+      .dark .prose h6 {
+        color: #f9fafb;
+      }
+
+      .prose a {
+        color: #3b82f6;
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+        transition: border-color 0.2s;
+      }
+
+      .prose a:hover {
+        border-bottom-color: #3b82f6;
+      }
+
+      .prose code {
+        background: rgba(59, 130, 246, 0.1);
+        color: #1f2937;
+        padding: 0.2em 0.4em;
+        border-radius: 0.375rem;
+        font-size: 0.875em;
+      }
+
+      .dark .prose code {
+        background: rgba(59, 130, 246, 0.2);
+        color: #e5e7eb;
+      }
+
+      .prose pre {
+        background: rgba(0, 0, 0, 0.05);
+        color: #1f2937;
+        border-radius: 0.75rem;
+        padding: 1rem;
+        overflow-x: auto;
+        position: relative;
+      }
+
+      .dark .prose pre {
+        background: rgba(255, 255, 255, 0.05);
+        color: #e5e7eb;
+      }
+
+      .prose blockquote {
+        border-left: 4px solid #3b82f6;
+        padding-left: 1rem;
+        font-style: italic;
+        background: rgba(59, 130, 246, 0.05);
+        color: #4b5563;
+        border-radius: 0 0.5rem 0.5rem 0;
+        margin: 1rem 0;
+        padding: 1rem;
+      }
+
+      .dark .prose blockquote {
+        background: rgba(59, 130, 246, 0.1);
+        color: #d1d5db;
+      }
+
+      .prose p {
+        color: #4b5563;
+      }
+
+      .dark .prose p {
+        color: #d1d5db;
+      }
+
+      .prose li {
+        color: #4b5563;
+      }
+
+      .dark .prose li {
+        color: #d1d5db;
+      }
+
+      .prose strong {
+        color: #111827;
+      }
+
+      .dark .prose strong {
+        color: #f9fafb;
+      }
+
+      /* Focus styles for accessibility */
+      .glass-button:focus,
+      .glass-input:focus {
+        outline: 2px solid #3b82f6;
+        outline-offset: 2px;
+      }
+
+      /* Reduced motion for accessibility */
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+
+        html {
+          scroll-behavior: auto;
+        }
+      }
+
+      /* Mica background for body */
+      body {
+        background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+        background-attachment: fixed;
+      }
+
+      .dark body {
+        background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+        background-attachment: fixed;
+      }
+
+      /* Use JetBrains Mono across the site */
+      html,
+      body {
+        min-height: 100%;
+      }
+      body {
+        font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+          Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        display: flex;
+        flex-direction: column;
+      }
+      main {
+        flex: 1 0 auto;
+      }
+
+      /* Footer hover overflow fix */
+      footer.glass-card {
+        transform: none;
+      }
+      footer.glass-card:hover {
+        transform: none !important;
+      }
+
+      /* Penjaga scrollbar horizontal */
+      html,
+      body {
+        overflow-x: hidden;
+      }
+    </style>
+  </head>
+  <body
+    class="font-segoe bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 min-h-screen flex flex-col transition-all duration-300"
+  >
+    <!-- Navigation -->
+    <nav
+      class="glass-nav fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-white/20 dark:bg-gray-900/20 border-b border-white/20 dark:border-gray-700/20"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex items-center space-x-4">
+            <div
+              class="glass-logo w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center"
+            >
+              <span class="text-white font-bold text-lg">LW</span>
+            </div>
+            <h1 class="text-xl font-semibold text-gray-800 dark:text-white">
+              Lab WorkSpace
+            </h1>
+          </div>
+
+          <div class="flex items-center space-x-4">
+            <!-- Navigation Dropdown -->
+            <div class="relative">
+              <button
+                id="navDropdownButton"
+                class="glass-button flex items-center gap-2 px-3 py-2 rounded-xl backdrop-blur-md bg-white/30 dark:bg-gray-800/30 border border-white/20 dark:border-gray-700/20 hover:bg-white/40 dark:hover:bg-gray-700/40 transition-all duration-200"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <svg
+                  class="w-5 h-5 text-gray-600 dark:text-gray-300"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  ></path>
+                </svg>
+                <span
+                  class="text-gray-700 dark:text-gray-200 text-sm font-medium"
+                  >Menu</span
+                >
+                <svg
+                  class="w-4 h-4 text-gray-600 dark:text-gray-300"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
+              </button>
+
+              <div
+                id="navDropdown"
+                class="absolute right-0 mt-2 w-48 glass-card rounded-xl p-2 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20 shadow-2xl hidden z-50"
+                role="menu"
+                aria-label="Navigasi utama"
+              >
+                <a
+                  href="index.html"
+                  class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-white/40 dark:hover:bg-gray-700/40 rounded-lg transition-colors"
+                  role="menuitem"
+                  >Home</a
+                >
+                <a
+                  href="about-us.html"
+                  class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-white/40 dark:hover:bg-gray-700/40 rounded-lg transition-colors"
+                  role="menuitem"
+                  >About Us</a
+                >
+                <a
+                  href="contact.html"
+                  class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-white/40 dark:hover:bg-gray-700/40 rounded-lg transition-colors"
+                  role="menuitem"
+                  >Contact</a
+                >
+                <a
+                  href="#"
+                  class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-white/40 dark:hover:bg-gray-700/40 rounded-lg transition-colors"
+                  role="menuitem"
+                  >Create Article</a
+                >
+              </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="relative hidden md:block">
+              <input
+                type="text"
+                id="searchInput"
+                placeholder="Cari artikel..."
+                class="glass-input w-64 px-4 py-2 pl-10 rounded-xl backdrop-blur-md bg-white/30 dark:bg-gray-800/30 border border-white/20 dark:border-gray-700/20 text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              />
+              <svg
+                class="absolute left-3 top-2.5 w-5 h-5 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                ></path>
+              </svg>
+            </div>
+
+            <!-- Dropdown Filter Tag Multi-Select -->
+            <div class="relative hidden md:block" id="tagFilterWrapper">
+              <button
+                id="tagFilterButton"
+                class="glass-button flex items-center gap-2 px-3 py-2 rounded-xl backdrop-blur-md bg-white/30 dark:bg-gray-800/30 border border-white/20 dark:border-gray-700/20 hover:bg-white/40 dark:hover:bg-gray-700/40 transition-all duration-200"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <svg
+                  class="w-5 h-5 text-gray-600 dark:text-gray-300"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 5h18M3 12h18M3 19h18"
+                  ></path>
+                </svg>
+                <span
+                  class="text-gray-700 dark:text-gray-200 text-sm font-medium"
+                  >Filter Tag</span
+                >
+                <span
+                  id="selectedTagCount"
+                  class="hidden ml-1 px-1.5 py-0.5 text-xs rounded-md bg-blue-500/20 text-blue-700 dark:text-blue-300 border border-blue-500/20"
+                  >0</span
+                >
+              </button>
+
+              <div
+                id="tagDropdown"
+                class="absolute right-0 mt-2 w-64 glass-card rounded-xl p-3 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20 shadow-2xl hidden"
+                role="menu"
+                aria-label="Filter berdasarkan tag"
+              >
+                <div class="flex items-center justify-between mb-2">
+                  <p
+                    class="text-sm font-medium text-gray-700 dark:text-gray-200"
+                  >
+                    Pilih Tag
+                  </p>
+                  <button
+                    id="clearTagsBtn"
+                    class="text-xs text-blue-600 dark:text-blue-400 hover:underline"
+                    type="button"
+                  >
+                    Hapus
+                  </button>
+                </div>
+                <!-- Daftar checkbox tag akan dirender via JS -->
+                <div id="tagList" class="max-h-56 overflow-auto pr-1 space-y-1">
+                  <!-- items injected -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Dark Mode Toggle -->
+            <button
+              id="darkModeToggle"
+              class="glass-button p-2 rounded-xl backdrop-blur-md bg-white/30 dark:bg-gray-800/30 border border-white/20 dark:border-gray-700/20 hover:bg-white/40 dark:hover:bg-gray-700/40 transition-all duration-200"
+            >
+              <svg
+                class="w-5 h-5 text-gray-600 dark:text-gray-300"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20 pb-12 flex-1">
+      <!-- Hero Section -->
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+        <!-- <div
+          class="glass-card rounded-3xl p-8 md:p-12 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20 shadow-2xl text-center"
+        >
+          <h2
+            class="text-4xl md:text-6xl font-bold text-gray-800 dark:text-white mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+          >
+            Tentang Kami
+          </h2>
+          <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            Kami adalah tim yang berdedikasi untuk berbagi pengetahuan dan
+            pengalaman di dunia teknologi dan programming.
+          </p>
+        </div> -->
+      </section>
+
+      <!-- Team Section -->
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h3 class="text-3xl font-bold text-gray-800 dark:text-white mb-4">
+            Tim Kami
+          </h3>
+          <p class="text-lg text-gray-600 dark:text-gray-300">
+            Bertemu dengan orang-orang di balik Lab WorkSpace
+          </p>
+        </div>
+
+        <!-- Main Person -->
+        <div class="flex justify-center mb-12">
+          <div
+            class="glass-card rounded-2xl p-8 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20 shadow-2xl max-w-md text-center fade-in-up"
+          >
+            <div
+              class="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center"
+            >
+              <svg
+                class="w-16 h-16 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                ></path>
+              </svg>
+            </div>
+            <h4 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">
+              Qzief
+            </h4>
+            <p class="text-blue-600 dark:text-blue-400 font-medium mb-4">
+              Founder & Lead Developer
+            </p>
+            <p class="text-gray-600 dark:text-gray-300">
+              Passionate about technology and education. Dedicated to creating
+              innovative solutions and sharing knowledge with the community.
+            </p>
+          </div>
+        </div>
+
+        <!-- Other Team Members -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Member 1 -->
+          <div
+            class="glass-card rounded-2xl p-6 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20 shadow-2xl text-center fade-in-up"
+          >
+            <div
+              class="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-green-500 to-teal-600 flex items-center justify-center"
+            >
+              <svg
+                class="w-12 h-12 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                ></path>
+              </svg>
+            </div>
+            <h5 class="text-xl font-bold text-gray-800 dark:text-white mb-2">
+              Leonrdnx
+            </h5>
+            <p class="text-green-600 dark:text-green-400 font-medium mb-3">
+              Content Writer
+            </p>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">
+              Expert in creating engaging technical content and tutorials for
+              developers.
+            </p>
+          </div>
+
+          <!-- Member 2 -->
+          <div
+            class="glass-card rounded-2xl p-6 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20 shadow-2xl text-center fade-in-up"
+          >
+            <div
+              class="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center"
+            >
+              <svg
+                class="w-12 h-12 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                ></path>
+              </svg>
+            </div>
+            <h5 class="text-xl font-bold text-gray-800 dark:text-white mb-2">
+              Rolnalduk
+            </h5>
+            <p class="text-purple-600 dark:text-purple-400 font-medium mb-3">
+              UI/UX Designer
+            </p>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">
+              Crafting beautiful and intuitive user experiences with modern
+              design principles.
+            </p>
+          </div>
+
+          <!-- Member 3 -->
+          <div
+            class="glass-card rounded-2xl p-6 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20 shadow-2xl text-center fade-in-up"
+          >
+            <div
+              class="w-24 h-24 mx-auto mb-4 rounded-full bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center"
+            >
+              <svg
+                class="w-12 h-12 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                ></path>
+              </svg>
+            </div>
+            <h5 class="text-xl font-bold text-gray-800 dark:text-white mb-2">
+              Viktor Trotoar
+            </h5>
+            <p class="text-orange-600 dark:text-orange-400 font-medium mb-3">
+              DevOps Engineer
+            </p>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">
+              Ensuring smooth deployment and maintenance of our platform with
+              cutting-edge tools.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer
+      class="glass-card backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border-t border-white/20 dark:border-gray-700/20 py-8 mt-auto"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div
+          class="flex flex-col sm:flex-row items-center justify-between gap-4"
+        >
+          <p class="text-gray-600 dark:text-gray-300 order-2 sm:order-1">
+            © 2025 - 2026 Lab WorkSpace.
+          </p>
+          <div class="flex items-center gap-4 order-1 sm:order-2">
+            <!-- GitHub -->
+            <a
+              href="https://github.com/Qzief/lab-workspace"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="glass-button p-2 rounded-xl backdrop-blur-md bg-white/30 dark:bg-gray-800/30 border border-white/20 dark:border-gray-700/20 hover:bg-white/40 dark:hover:bg-gray-700/40 transition-all duration-200 group"
+              title="GitHub"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-github"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"
+                />
+              </svg>
+            </a>
+
+            <!-- Discord -->
+            <a
+              href="https://discord.com/invite/CkmzkYXqZ5"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="glass-button p-2 rounded-xl backdrop-blur-md bg-white/30 dark:bg-gray-800/30 border border-white/20 dark:border-gray-700/20 hover:bg-white/40 dark:hover:bg-gray-700/40 transition-all duration-200 group"
+              title="Discord"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-discord"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"
+                />
+              </svg>
+            </a>
+
+            <!-- Buy Me a Coffee -->
+            <a
+              href="https://buymeacoffee.com/qzief"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="glass-button p-2 rounded-xl backdrop-blur-md bg-white/30 dark:bg-gray-800/30 border border-white/20 dark:border-gray-700/20 hover:bg-white/40 dark:hover:bg-gray-700/40 transition-all duration-200 group"
+              title="Buy Me a Coffee"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-cup-hot"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M.5 6a.5.5 0 0 0-.488.608l1.652 7.434A2.5 2.5 0 0 0 4.104 16h5.792a2.5 2.5 0 0 0 2.44-1.958l.131-.59a3 3 0 0 0 1.3-5.854l.221-.99A.5.5 0 0 0 13.5 6zM13 12.5a2 2 0 0 1-.316-.025l.867-3.898A2.001 2.001 0 0 1 13 12.5M2.64 13.825 1.123 7h11.754l-1.517 6.825A1.5 1.5 0 0 1 9.896 15H4.104a1.5 1.5 0 0 1-1.464-1.175"
+                />
+                <path
+                  d="m4.4.8-.003.004-.014.019a4 4 0 0 0-.204.31 2 2 0 0 0-.141.267c-.026.06-.034.092-.037.103v.004a.6.6 0 0 0 .091.248c.075.133.178.272.308.445l.01.012c.118.158.26.347.37.543.112.2.22.455.22.745 0 .188-.065.368-.119.494a3 3 0 0 1-.202.388 5 5 0 0 1-.253.382l-.018.025-.005.008-.002.002A.5.5 0 0 1 3.6 4.2l.003-.004.014-.019a4 4 0 0 0 .204-.31 2 2 0 0 0 .141-.267c.026-.06.034-.092.037-.103a.6.6 0 0 0-.09-.252A4 4 0 0 0 3.6 2.8l-.01-.012a5 5 0 0 1-.37-.543A1.53 1.53 0 0 1 3 1.5c0-.188.065-.368.119-.494.059-.138.134-.274.202-.388a6 6 0 0 1 .253-.382l.025-.035A.5.5 0 0 1 4.4.8m3 0-.003.004-.014.019a4 4 0 0 0-.204.31 2 2 0 0 0-.141.267c-.026.06-.034.092-.037.103v.004a.6.6 0 0 0 .091.248c.075.133.178.272.308.445l.01.012c.118.158.26.347.37.543.112.2.22.455.22.745 0 .188-.065.368-.119.494a3 3 0 0 1-.202.388 5 5 0 0 1-.253.382l-.018.025-.005.008-.002.002A.5.5 0 0 1 6.6 4.2l.003-.004.014-.019a4 4 0 0 0 .204-.31 2 2 0 0 0 .141-.267c.026-.06.034-.092.037-.103a.6.6 0 0 0-.09-.252A4 4 0 0 0 6.6 2.8l-.01-.012a5 5 0 0 1-.37-.543A1.53 1.53 0 0 1 6 1.5c0-.188.065-.368.119-.494.059-.138.134-.274.202-.388a6 6 0 0 1 .253-.382l.025-.035A.5.5 0 0 1 7.4.8m3 0-.003.004-.014.019a4 4 0 0 0-.204.31 2 2 0 0 0-.141.267c-.026.06-.034.092-.037.103v.004a.6.6 0 0 0 .091.248c.075.133.178.272.308.445l.01.012c.118.158.26.347.37.543.112.2.22.455.22.745 0 .188-.065.368-.119.494a3 3 0 0 1-.202.388 5 5 0 0 1-.252.382l-.019.025-.005.008-.002.002A.5.5 0 0 1 9.6 4.2l.003-.004.014-.019a4 4 0 0 0 .204-.31 2 2 0 0 0 .141-.267c.026-.06.034-.092.037-.103a.6.6 0 0 0-.09-.252A4 4 0 0 0 9.6 2.8l-.01-.012a5 5 0 0 1-.37-.543A1.53 1.53 0 0 1 9 1.5c0-.188.065-.368.119-.494.059-.138.134-.274.202-.388a6 6 0 0 1 .253-.382l.025-.035A.5.5 0 0 1 10.4.8"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Dark mode toggle
+      const darkModeToggle = document.getElementById("darkModeToggle");
+      const html = document.documentElement;
+      const isDarkMode = localStorage.getItem("darkMode") === "true";
+
+      if (isDarkMode) {
+        html.classList.add("dark");
+      }
+
+      darkModeToggle.addEventListener("click", () => {
+        const currentDark = html.classList.contains("dark");
+        html.classList.toggle("dark");
+        localStorage.setItem("darkMode", !currentDark);
+      });
+
+      // Navigation dropdown
+      const navBtn = document.getElementById("navDropdownButton");
+      const navDd = document.getElementById("navDropdown");
+
+      if (navBtn && navDd) {
+        const toggleNav = () => {
+          const isHidden = navDd.classList.contains("hidden");
+          navDd.classList.toggle("hidden");
+          navBtn.setAttribute("aria-expanded", isHidden ? "true" : "false");
+        };
+
+        navBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          toggleNav();
+        });
+
+        // Close if click outside
+        document.addEventListener("click", (e) => {
+          if (!navDd.classList.contains("hidden")) {
+            const within =
+              navDd.contains(e.target) || navBtn.contains(e.target);
+            if (!within) {
+              navDd.classList.add("hidden");
+              navBtn.setAttribute("aria-expanded", "false");
+            }
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

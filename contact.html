@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact - Lab WorkSpace</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      id="hljs-light"
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    />
+    <link
+      id="hljs-dark"
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css"
+      disabled
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              segoe: ["Segoe UI", "system-ui", "sans-serif"],
+            },
+            colors: {
+              "win-blue": "#0078d4",
+              "win-light": "#f3f3f3",
+              "win-dark": "#1e1e1e",
+              "fluent-blue": "#005a9e",
+              "fluent-light": "#f8f9fa",
+              "fluent-dark": "#202020",
+              acrylic: "rgba(255, 255, 255, 0.8)",
+              mica: "rgba(243, 243, 243, 0.5)",
+            },
+            borderRadius: {
+              fluent: "8px",
+              "fluent-lg": "12px",
+            },
+            boxShadow: {
+              fluent: "0 4px 16px rgba(0, 0, 0, 0.1)",
+              "fluent-hover": "0 8px 32px rgba(0, 0, 0, 0.15)",
+            },
+            backdropBlur: {
+              fluent: "20px",
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Custom Glassmorphism Styles with Fluent Design */
+      .glass-card {
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37),
+          inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 12px;
+      }
+
+      .glass-card:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 12px 40px rgba(31, 38, 135, 0.5),
+          inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+      }
+
+      .glass-nav {
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        background: rgba(255, 255, 255, 0.8);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      }
+
+      .glass-button {
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        background: rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 8px;
+      }
+
+      .glass-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(59, 130, 246, 0.2);
+        background: rgba(255, 255, 255, 0.8);
+      }
+
+      .glass-input {
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        background: rgba(255, 255, 255, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 8px;
+      }
+
+      .glass-input:focus {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+        background: rgba(255, 255, 255, 0.6);
+      }
+
+      .glass-logo {
+        box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3),
+          inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+      }
+
+      /* Mica-like background */
+      .mica-bg {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.1) 0%,
+          rgba(255, 255, 255, 0.05) 100%
+        );
+        background-image: radial-gradient(
+            circle at 25% 25%,
+            rgba(255, 255, 255, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 75% 75%,
+            rgba(255, 255, 255, 0.05) 0%,
+            transparent 50%
+          );
+      }
+
+      /* Dark mode adjustments */
+      .dark .glass-card {
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .dark .glass-nav {
+        background: rgba(0, 0, 0, 0.8);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .dark .glass-button {
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .dark .glass-button:hover {
+        background: rgba(0, 0, 0, 0.6);
+      }
+
+      .dark .glass-input {
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .dark .glass-input:focus {
+        background: rgba(0, 0, 0, 0.5);
+      }
+
+      .dark .mica-bg {
+        background: linear-gradient(
+          135deg,
+          rgba(0, 0, 0, 0.1) 0%,
+          rgba(0, 0, 0, 0.05) 100%
+        );
+        background-image: radial-gradient(
+            circle at 25% 25%,
+            rgba(0, 0, 0, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 75% 75%,
+            rgba(0, 0, 0, 0.05) 0%,
+            transparent 50%
+          );
+      }
+
+      /* Smooth scrolling */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: rgba(59, 130, 246, 0.5);
+        border-radius: 4px;
+        backdrop-filter: blur(10px);
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(59, 130, 246, 0.7);
+      }
+
+      /* Dark mode scrollbar */
+      .dark ::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.2);
+      }
+
+      .dark ::-webkit-scrollbar-thumb {
+        background: rgba(156, 163, 175, 0.5);
+      }
+
+      .dark ::-webkit-scrollbar-thumb:hover {
+        background: rgba(156, 163, 175, 0.7);
+      }
+
+      /* Animation for cards */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .fade-in-up {
+        animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      }
+
+      /* Prose styling for markdown content */
+      .prose {
+        color: #374151;
+      }
+
+      .dark .prose {
+        color: #d1d5db;
+      }
+
+      .prose h1,
+      .prose h2,
+      .prose h3,
+      .prose h4,
+      .prose h5,
+      .prose h6 {
+        color: #111827;
+        font-weight: 600;
+      }
+
+      .dark .prose h1,
+      .dark .prose h2,
+      .dark .prose h3,
+      .dark .prose h4,
+      .dark .prose h5,
+      .dark .prose h6 {
+        color: #f9fafb;
+      }
+
+      .prose a {
+        color: #3b82f6;
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+        transition: border-color 0.2s;
+      }
+
+      .prose a:hover {
+        border-bottom-color: #3b82f6;
+      }
+
+      .prose code {
+        background: rgba(59, 130, 246, 0.1);
+        color: #1f2937;
+        padding: 0.2em 0.4em;
+        border-radius: 0.375rem;
+        font-size: 0.875em;
+      }
+
+      .dark .prose code {
+        background: rgba(59, 130, 246, 0.2);
+        color: #e5e7eb;
+      }
+
+      .prose pre {
+        background: rgba(0, 0, 0, 0.05);
+        color: #1f2937;
+        border-radius: 0.75rem;
+        padding: 1rem;
+        overflow-x: auto;
+        position: relative;
+      }
+
+      .dark .prose pre {
+        background: rgba(255, 255, 255, 0.05);
+        color: #e5e7eb;
+      }
+
+      .prose blockquote {
+        border-left: 4px solid #3b82f6;
+        padding-left: 1rem;
+        font-style: italic;
+        background: rgba(59, 130, 246, 0.05);
+        color: #4b5563;
+        border-radius: 0 0.5rem 0.5rem 0;
+        margin: 1rem 0;
+        padding: 1rem;
+      }
+
+      .dark .prose blockquote {
+        background: rgba(59, 130, 246, 0.1);
+        color: #d1d5db;
+      }
+
+      .prose p {
+        color: #4b5563;
+      }
+
+      .dark .prose p {
+        color: #d1d5db;
+      }
+
+      .prose li {
+        color: #4b5563;
+      }
+
+      .dark .prose li {
+        color: #d1d5db;
+      }
+
+      .prose strong {
+        color: #111827;
+      }
+
+      .dark .prose strong {
+        color: #f9fafb;
+      }
+
+      /* Focus styles for accessibility */
+      .glass-button:focus,
+      .glass-input:focus {
+        outline: 2px solid #3b82f6;
+        outline-offset: 2px;
+      }
+
+      /* Reduced motion for accessibility */
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+
+        html {
+          scroll-behavior: auto;
+        }
+      }
+
+      /* Mica background for body */
+      body {
+        background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+        background-attachment: fixed;
+      }
+
+      .dark body {
+        background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+        background-attachment: fixed;
+      }
+
+      /* Use JetBrains Mono across the site */
+      html,
+      body {
+        min-height: 100%;
+      }
+      body {
+        font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+          Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        display: flex;
+        flex-direction: column;
+      }
+      main {
+        flex: 1 0 auto;
+      }
+
+      /* Footer hover overflow fix */
+      footer.glass-card {
+        transform: none;
+      }
+      footer.glass-card:hover {
+        transform: none !important;
+      }
+
+      /* Penjaga scrollbar horizontal */
+      html,
+      body {
+        overflow-x: hidden;
+      }
+    </style>
+  </head>
+  <body
+    class="font-segoe bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 min-h-screen flex flex-col transition-all duration-300"
+  >
+    <!-- Navigation -->
+    <nav
+      class="glass-nav fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-white/20 dark:bg-gray-900/20 border-b border-white/20 dark:border-gray-700/20"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex items-center space-x-4">
+            <div
+              class="glass-logo w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center"
+            >
+              <span class="text-white font-bold text-lg">LW</span>
+            </div>
+            <h1 class="text-xl font-semibold text-gray-800 dark:text-white">
+              Lab WorkSpace
+            </h1>
+          </div>
+
+          <div class="flex items-center space-x-4">
+            <!-- Navigation Dropdown -->
+            <div class="relative">
+              <button
+                id="navDropdownButton"
+                class="glass-button flex items-center gap-2 px-3 py-2 rounded-xl backdrop-blur-md bg-white/30 dark:bg-gray-800/30 border border-white/20 dark:border-gray-700/20 hover:bg-white/40 dark:hover:bg-gray-700/40 transition-all duration-200"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <svg
+                  class="w-5 h-5 text-gray-600 dark:text-gray-300"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  ></path>
+                </svg>
+                <span
+                  class="text-gray-700 dark:text-gray-200 text-sm font-medium"
+                  >Menu</span
+                >
+                <svg
+                  class="w-4 h-4 text-gray-600 dark:text-gray-300"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
+              </button>
+
+              <div
+                id="navDropdown"
+                class="absolute right-0 mt-2 w-48 glass-card rounded-xl p-2 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20 shadow-2xl hidden z-50"
+                role="menu"
+                aria-label="Navigasi utama"
+              >
+                <a
+                  href="index.html"
+                  class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-white/40 dark:hover:bg-gray-700/40 rounded-lg transition-colors"
+                  role="menuitem"
+                  >Home</a
+                >
+                <a
+                  href="about-us.html"
+                  class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-white/40 dark:hover:bg-gray-700/40 rounded-lg transition-colors"
+                  role="menuitem"
+                  >About Us</a
+                >
+                <a
+                  href="contact.html"
+                  class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-white/40 dark:hover:bg-gray-700/40 rounded-lg transition-colors"
+                  role="menuitem"
+                  >Contact</a
+                >
+                <a
+                  href="#"
+                  class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-white/40 dark:hover:bg-gray-700/40 rounded-lg transition-colors"
+                  role="menuitem"
+                  >Create Article</a
+                >
+              </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="relative hidden md:block">
+              <input
+                type="text"
+                id="searchInput"
+                placeholder="Cari artikel..."
+                class="glass-input w-64 px-4 py-2 pl-10 rounded-xl backdrop-blur-md bg-white/30 dark:bg-gray-800/30 border border-white/20 dark:border-gray-700/20 text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+              />
+              <svg
+                class="absolute left-3 top-2.5 w-5 h-5 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                ></path>
+              </svg>
+            </div>
+
+            <!-- Dropdown Filter Tag Multi-Select -->
+            <div class="relative hidden md:block" id="tagFilterWrapper">
+              <button
+                id="tagFilterButton"
+                class="glass-button flex items-center gap-2 px-3 py-2 rounded-xl backdrop-blur-md bg-white/30 dark:bg-gray-800/30 border border-white/20 dark:border-gray-700/20 hover:bg-white/40 dark:hover:bg-gray-700/40 transition-all duration-200"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <svg
+                  class="w-5 h-5 text-gray-600 dark:text-gray-300"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 5h18M3 12h18M3 19h18"
+                  ></path>
+                </svg>
+                <span
+                  class="text-gray-700 dark:text-gray-200 text-sm font-medium"
+                  >Filter Tag</span
+                >
+                <span
+                  id="selectedTagCount"
+                  class="hidden ml-1 px-1.5 py-0.5 text-xs rounded-md bg-blue-500/20 text-blue-700 dark:text-blue-300 border border-blue-500/20"
+                  >0</span
+                >
+              </button>
+
+              <div
+                id="tagDropdown"
+                class="absolute right-0 mt-2 w-64 glass-card rounded-xl p-3 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20 shadow-2xl hidden"
+                role="menu"
+                aria-label="Filter berdasarkan tag"
+              >
+                <div class="flex items-center justify-between mb-2">
+                  <p
+                    class="text-sm font-medium text-gray-700 dark:text-gray-200"
+                  >
+                    Pilih Tag
+                  </p>
+                  <button
+                    id="clearTagsBtn"
+                    class="text-xs text-blue-600 dark:text-blue-400 hover:underline"
+                    type="button"
+                  >
+                    Hapus
+                  </button>
+                </div>
+                <!-- Daftar checkbox tag akan dirender via JS -->
+                <div id="tagList" class="max-h-56 overflow-auto pr-1 space-y-1">
+                  <!-- items injected -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Dark Mode Toggle -->
+            <button
+              id="darkModeToggle"
+              class="glass-button p-2 rounded-xl backdrop-blur-md bg-white/30 dark:bg-gray-800/30 border border-white/20 dark:border-gray-700/20 hover:bg-white/40 dark:hover:bg-gray-700/40 transition-all duration-200"
+            >
+              <svg
+                class="w-5 h-5 text-gray-600 dark:text-gray-300"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20 pb-12 flex-1">
+      <!-- Hero Section -->
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+        <!--<div
+          class="glass-card rounded-3xl p-8 md:p-12 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20 shadow-2xl text-center"
+        >
+          <h2
+            class="text-4xl md:text-6xl font-bold text-gray-800 dark:text-white mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+          >
+            Hubungi Kami
+          </h2>
+          <p
+            class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
+          >
+            Terhubung dengan kami melalui berbagai platform sosial media dan aplikasi pesan.
+          </p>
+        </div> -->
+      </section>
+
+      <!-- Contact Cards Section -->
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h3 class="text-3xl font-bold text-gray-800 dark:text-white mb-4">
+            Platform Kontak
+          </h3>
+          <p class="text-lg text-gray-600 dark:text-gray-300">
+            Pilih platform favorit Anda untuk berkomunikasi dengan tim Lab
+            WorkSpace
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <!-- Discord Card -->
+          <div
+            class="glass-card rounded-2xl p-6 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20 shadow-2xl text-center fade-in-up"
+          >
+            <div
+              class="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="30"
+                height="30"
+                fill="currentColor"
+                class="bi bi-discord"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"
+                />
+              </svg>
+            </div>
+            <h4 class="text-xl font-bold text-gray-800 dark:text-white mb-2">
+              Discord
+            </h4>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">
+              Bergabunglah dengan komunitas kami untuk diskusi.
+            </p>
+            <a
+              href="https://discord.com/invite/CkmzkYXqZ5"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="glass-button inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-white/40 dark:hover:bg-gray-700/40 transition-all duration-200"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-people"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"
+                />
+              </svg>
+              Gabung Sekarang
+            </a>
+          </div>
+
+          <!-- WhatsApp Card -->
+          <div
+            class="glass-card rounded-2xl p-6 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20 shadow-2xl text-center fade-in-up"
+          >
+            <div
+              class="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="30"
+                height="30"
+                fill="currentColor"
+                class="bi bi-whatsapp"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"
+                />
+              </svg>
+            </div>
+            <h4 class="text-xl font-bold text-gray-800 dark:text-white mb-2">
+              WhatsApp
+            </h4>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">
+              Chat langsung untuk pertanyaan cepat dan dukungan.
+            </p>
+            <a
+              href="https://wa.me/6281234567890"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="glass-button inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-white/40 dark:hover:bg-gray-700/40 transition-all duration-200"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-chat-dots"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"
+                />
+                <path
+                  d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9 9 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.4 10.4 0 0 1-.524 2.318l-.003.011a11 11 0 0 1-.244.637c-.079.186.074.394.273.362a22 22 0 0 0 .693-.125m.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6-3.004 6-7 6a8 8 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a11 11 0 0 0 .398-2"
+                />
+              </svg>
+              Kirim Pesan
+            </a>
+          </div>
+
+          <!-- Telegram Card -->
+          <div
+            class="glass-card rounded-2xl p-6 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20 shadow-2xl text-center fade-in-up"
+          >
+            <div
+              class="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="30"
+                height="30"
+                fill="currentColor"
+                class="bi bi-telegram"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.287 5.906q-1.168.486-4.666 2.01-.567.225-.595.442c-.03.243.275.339.69.47l.175.055c.408.133.958.288 1.243.294q.39.01.868-.32 3.269-2.206 3.374-2.23c.05-.012.12-.026.166.016s.042.12.037.141c-.03.129-1.227 1.241-1.846 1.817-.193.18-.33.307-.358.336a8 8 0 0 1-.188.186c-.38.366-.664.64.015 1.088.327.216.589.393.85.571.284.194.568.387.936.629q.14.092.27.187c.331.236.63.448.997.414.214-.02.435-.22.547-.82.265-1.417.786-4.486.906-5.751a1.4 1.4 0 0 0-.013-.315.34.34 0 0 0-.114-.217.53.53 0 0 0-.31-.093c-.3.005-.763.166-2.984 1.09"
+                />
+              </svg>
+            </div>
+            <h4 class="text-xl font-bold text-gray-800 dark:text-white mb-2">
+              Telegram
+            </h4>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">
+              Grup dan channel untuk update terbaru dan kolaborasi.
+            </p>
+            <a
+              href="https://t.me/labworkspace"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="glass-button inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-white/40 dark:hover:bg-gray-700/40 transition-all duration-200"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-send"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z"
+                />
+              </svg>
+              Buka Telegram
+            </a>
+          </div>
+
+          <!-- Instagram Card -->
+          <div
+            class="glass-card rounded-2xl p-6 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20 shadow-2xl text-center fade-in-up"
+          >
+            <div
+              class="w-20 h-20 mx-auto mb-4 rounded-full bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="30"
+                height="30"
+                fill="currentColor"
+                class="bi bi-instagram"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"
+                />
+              </svg>
+            </div>
+            <h4 class="text-xl font-bold text-gray-800 dark:text-white mb-2">
+              Instagram
+            </h4>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">
+              Ikuti kami untuk konten visual dan tips programming.
+            </p>
+            <a
+              href="https://instagram.com/labworkspace"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="glass-button inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-white/40 dark:hover:bg-gray-700/40 transition-all duration-200"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-plus-circle"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"
+                />
+                <path
+                  d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"
+                />
+              </svg>
+              Ikuti Kami
+            </a>
+          </div>
+        </div>
+
+        <!-- Additional Contact Info Dropdown -->
+        <div class="mt-12 text-center">
+          <button
+            id="contactInfoButton"
+            class="glass-button inline-flex items-center gap-2 px-6 py-3 text-lg font-medium text-gray-700 dark:text-gray-200 hover:bg-white/40 dark:hover:bg-gray-700/40 transition-all duration-200"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+              ></path>
+            </svg>
+            Info Kontak Tambahan
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              ></path>
+            </svg>
+          </button>
+
+          <div
+            id="contactInfoDropdown"
+            class="mt-4 glass-card rounded-xl p-6 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20 shadow-2xl hidden max-w-2xl mx-auto"
+          >
+            <h4 class="text-xl font-bold text-gray-800 dark:text-white mb-4">
+              Informasi Kontak
+            </h4>
+            <div class="space-y-3 text-left">
+              <div class="flex items-center gap-3">
+                <svg
+                  class="w-5 h-5 text-blue-600 dark:text-blue-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  ></path>
+                </svg>
+                <span class="text-gray-600 dark:text-gray-300"
+                  >Email: Coming Soon</span
+                >
+              </div>
+              <div class="flex items-center gap-3">
+                <svg
+                  class="w-5 h-5 text-green-600 dark:text-green-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                  ></path>
+                </svg>
+                <span class="text-gray-600 dark:text-gray-300"
+                  >Phone: Coming Soon</span
+                >
+              </div>
+              <div class="flex items-center gap-3">
+                <svg
+                  class="w-5 h-5 text-purple-600 dark:text-purple-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  ></path>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  ></path>
+                </svg>
+                <span class="text-gray-600 dark:text-gray-300"
+                  >Location: Coming Soon</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer
+      class="glass-card backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border-t border-white/20 dark:border-gray-700/20 py-8 mt-auto"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div
+          class="flex flex-col sm:flex-row items-center justify-between gap-4"
+        >
+          <p class="text-gray-600 dark:text-gray-300 order-2 sm:order-1">
+            © 2025 - 2026 Lab WorkSpace.
+          </p>
+          <div class="flex items-center gap-4 order-1 sm:order-2">
+            <!-- GitHub -->
+            <a
+              href="https://github.com/Qzief/lab-workspace"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="glass-button p-2 rounded-xl backdrop-blur-md bg-white/30 dark:bg-gray-800/30 border border-white/20 dark:border-gray-700/20 hover:bg-white/40 dark:hover:bg-gray-700/40 transition-all duration-200 group"
+              title="GitHub"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-github"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"
+                />
+              </svg>
+            </a>
+
+            <!-- Discord -->
+            <a
+              href="https://discord.com/invite/CkmzkYXqZ5"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="glass-button p-2 rounded-xl backdrop-blur-md bg-white/30 dark:bg-gray-800/30 border border-white/20 dark:border-gray-700/20 hover:bg-white/40 dark:hover:bg-gray-700/40 transition-all duration-200 group"
+              title="Discord"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-discord"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"
+                />
+              </svg>
+            </a>
+
+            <!-- Buy Me a Coffee -->
+            <a
+              href="https://buymeacoffee.com/qzief"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="glass-button p-2 rounded-xl backdrop-blur-md bg-white/30 dark:bg-gray-800/30 border border-white/20 dark:border-gray-700/20 hover:bg-white/40 dark:hover:bg-gray-700/40 transition-all duration-200 group"
+              title="Buy Me a Coffee"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-cup-hot"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M.5 6a.5.5 0 0 0-.488.608l1.652 7.434A2.5 2.5 0 0 0 4.104 16h5.792a2.5 2.5 0 0 0 2.44-1.958l.131-.59a3 3 0 0 0 1.3-5.854l.221-.99A.5.5 0 0 0 13.5 6zM13 12.5a2 2 0 0 1-.316-.025l.867-3.898A2.001 2.001 0 0 1 13 12.5M2.64 13.825 1.123 7h11.754l-1.517 6.825A1.5 1.5 0 0 1 9.896 15H4.104a1.5 1.5 0 0 1-1.464-1.175"
+                />
+                <path
+                  d="m4.4.8-.003.004-.014.019a4 4 0 0 0-.204.31 2 2 0 0 0-.141.267c-.026.06-.034.092-.037.103v.004a.6.6 0 0 0 .091.248c.075.133.178.272.308.445l.01.012c.118.158.26.347.37.543.112.2.22.455.22.745 0 .188-.065.368-.119.494a3 3 0 0 1-.202.388 5 5 0 0 1-.253.382l-.018.025-.005.008-.002.002A.5.5 0 0 1 3.6 4.2l.003-.004.014-.019a4 4 0 0 0 .204-.31 2 2 0 0 0 .141-.267c.026-.06.034-.092.037-.103a.6.6 0 0 0-.09-.252A4 4 0 0 0 3.6 2.8l-.01-.012a5 5 0 0 1-.37-.543A1.53 1.53 0 0 1 3 1.5c0-.188.065-.368.119-.494.059-.138.134-.274.202-.388a6 6 0 0 1 .253-.382l.025-.035A.5.5 0 0 1 4.4.8m3 0-.003.004-.014.019a4 4 0 0 0-.204.31 2 2 0 0 0-.141.267c-.026.06-.034.092-.037.103v.004a.6.6 0 0 0 .091.248c.075.133.178.272.308.445l.01.012c.118.158.26.347.37.543.112.2.22.455.22.745 0 .188-.065.368-.119.494a3 3 0 0 1-.202.388 5 5 0 0 1-.253.382l-.018.025-.005.008-.002.002A.5.5 0 0 1 6.6 4.2l.003-.004.014-.019a4 4 0 0 0 .204-.31 2 2 0 0 0 .141-.267c.026-.06.034-.092.037-.103a.6.6 0 0 0-.09-.252A4 4 0 0 0 6.6 2.8l-.01-.012a5 5 0 0 1-.37-.543A1.53 1.53 0 0 1 6 1.5c0-.188.065-.368.119-.494.059-.138.134-.274.202-.388a6 6 0 0 1 .253-.382l.025-.035A.5.5 0 0 1 7.4.8m3 0-.003.004-.014.019a4 4 0 0 0-.204.31 2 2 0 0 0-.141.267c-.026.06-.034.092-.037.103v.004a.6.6 0 0 0 .091.248c.075.133.178.272.308.445l.01.012c.118.158.26.347.37.543.112.2.22.455.22.745 0 .188-.065.368-.119.494a3 3 0 0 1-.202.388 5 5 0 0 1-.252.382l-.019.025-.005.008-.002.002A.5.5 0 0 1 9.6 4.2l.003-.004.014-.019a4 4 0 0 0 .204-.31 2 2 0 0 0 .141-.267c.026-.06.034-.092.037-.103a.6.6 0 0 0-.09-.252A4 4 0 0 0 9.6 2.8l-.01-.012a5 5 0 0 1-.37-.543A1.53 1.53 0 0 1 9 1.5c0-.188.065-.368.119-.494.059-.138.134-.274.202-.388a6 6 0 0 1 .253-.382l.025-.035A.5.5 0 0 1 10.4.8"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Dark mode toggle
+      const darkModeToggle = document.getElementById("darkModeToggle");
+      const html = document.documentElement;
+      const isDarkMode = localStorage.getItem("darkMode") === "true";
+
+      if (isDarkMode) {
+        html.classList.add("dark");
+      }
+
+      darkModeToggle.addEventListener("click", () => {
+        const currentDark = html.classList.contains("dark");
+        html.classList.toggle("dark");
+        localStorage.setItem("darkMode", !currentDark);
+      });
+
+      // Navigation dropdown
+      const navBtn = document.getElementById("navDropdownButton");
+      const navDd = document.getElementById("navDropdown");
+
+      if (navBtn && navDd) {
+        const toggleNav = () => {
+          const isHidden = navDd.classList.contains("hidden");
+          navDd.classList.toggle("hidden");
+          navBtn.setAttribute("aria-expanded", isHidden ? "true" : "false");
+        };
+
+        navBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          toggleNav();
+        });
+
+        // Close if click outside
+        document.addEventListener("click", (e) => {
+          if (!navDd.classList.contains("hidden")) {
+            const within =
+              navDd.contains(e.target) || navBtn.contains(e.target);
+            if (!within) {
+              navDd.classList.add("hidden");
+              navBtn.setAttribute("aria-expanded", "false");
+            }
+          }
+        });
+      }
+
+      // Contact info dropdown
+      const contactBtn = document.getElementById("contactInfoButton");
+      const contactDd = document.getElementById("contactInfoDropdown");
+
+      if (contactBtn && contactDd) {
+        const toggleContact = () => {
+          const isHidden = contactDd.classList.contains("hidden");
+          contactDd.classList.toggle("hidden");
+          contactBtn.setAttribute("aria-expanded", isHidden ? "true" : "false");
+        };
+
+        contactBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          toggleContact();
+        });
+
+        // Close if click outside
+        document.addEventListener("click", (e) => {
+          if (!contactDd.classList.contains("hidden")) {
+            const within =
+              contactDd.contains(e.target) || contactBtn.contains(e.target);
+            if (!within) {
+              contactDd.classList.add("hidden");
+              contactBtn.setAttribute("aria-expanded", "false");
+            }
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

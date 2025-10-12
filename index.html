@@ -573,6 +573,35 @@ html, body { overflow-x: hidden; }
           </div>
 
           <div class="flex items-center space-x-4">
+            <!-- Navigation Dropdown -->
+            <div class="relative">
+              <button
+                id="navDropdownButton"
+                class="glass-button flex items-center gap-2 px-3 py-2 rounded-xl backdrop-blur-md bg-white/30 dark:bg-gray-800/30 border border-white/20 dark:border-gray-700/20 hover:bg-white/40 dark:hover:bg-gray-700/40 transition-all duration-200"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <svg class="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+                <span class="text-gray-700 dark:text-gray-200 text-sm font-medium">Menu</span>
+                <svg class="w-4 h-4 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </button>
+
+              <div
+                id="navDropdown"
+                class="absolute right-0 mt-2 w-48 glass-card rounded-xl p-2 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20 shadow-2xl hidden z-50"
+                role="menu"
+                aria-label="Navigasi utama"
+              >
+                <a href="about-us.html" class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-white/40 dark:hover:bg-gray-700/40 rounded-lg transition-colors" role="menuitem">About Us</a>
+                <a href="contact.html" class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-white/40 dark:hover:bg-gray-700/40 rounded-lg transition-colors" role="menuitem">Contact</a>
+                <a href="create-article.html" class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-white/40 dark:hover:bg-gray-700/40 rounded-lg transition-colors" role="menuitem">Create Article</a>
+              </div>
+            </div>
+
             <!-- Search Bar -->
             <div class="relative hidden md:block">
               <input

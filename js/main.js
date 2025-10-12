@@ -125,6 +125,34 @@ class BlogSystem {
         this.showHomePage();
       }
     });
+
+    // Navigation dropdown
+    const navBtn = document.getElementById("navDropdownButton");
+    const navDd = document.getElementById("navDropdown");
+
+    if (navBtn && navDd) {
+      const toggleNav = () => {
+        const isHidden = navDd.classList.contains("hidden");
+        navDd.classList.toggle("hidden");
+        navBtn.setAttribute("aria-expanded", isHidden ? "true" : "false");
+      };
+
+      navBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleNav();
+      });
+
+      // Close if click outside
+      document.addEventListener("click", (e) => {
+        if (!navDd.classList.contains("hidden")) {
+          const within = navDd.contains(e.target) || navBtn.contains(e.target);
+          if (!within) {
+            navDd.classList.add("hidden");
+            navBtn.setAttribute("aria-expanded", "false");
+          }
+        }
+      });
+    }
   }
 
   async loadPosts() {
