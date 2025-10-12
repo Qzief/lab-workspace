@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dokumentasi Markdown - Lab WorkSpace</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      id="hljs-light"
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
+    />
+    <link
+      id="hljs-dark"
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark-dimmed.min.css"
+      disabled
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              segoe: ["Segoe UI", "system-ui", "sans-serif"],
+            },
+            colors: {
+              "win-blue": "#0078d4",
+              "win-light": "#f3f3f3",
+              "win-dark": "#1e1e1e",
+              "fluent-blue": "#005a9e",
+              "fluent-light": "#f8f9fa",
+              "fluent-dark": "#202020",
+              acrylic: "rgba(255, 255, 255, 0.8)",
+              mica: "rgba(243, 243, 243, 0.5)",
+            },
+            borderRadius: {
+              fluent: "8px",
+              "fluent-lg": "12px",
+            },
+            boxShadow: {
+              fluent: "0 4px 16px rgba(0, 0, 0, 0.1)",
+              "fluent-hover": "0 8px 32px rgba(0, 0, 0, 0.15)",
+            },
+            backdropBlur: {
+              fluent: "20px",
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Custom Glassmorphism Styles with Fluent Design */
+      .glass-card {
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37),
+          inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 12px;
+      }
+
+      .glass-card:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 12px 40px rgba(31, 38, 135, 0.5),
+          inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+      }
+
+      .glass-nav {
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        background: rgba(255, 255, 255, 0.8);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      }
+
+      .glass-button {
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        background: rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 8px;
+      }
+
+      .glass-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(59, 130, 246, 0.2);
+        background: rgba(255, 255, 255, 0.8);
+      }
+
+      .glass-input {
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        background: rgba(255, 255, 255, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 8px;
+      }
+
+      .glass-input:focus {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+        background: rgba(255, 255, 255, 0.6);
+      }
+
+      /* Dark mode adjustments */
+      .dark .glass-card {
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .dark .glass-nav {
+        background: rgba(0, 0, 0, 0.8);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .dark .glass-button {
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .dark .glass-button:hover {
+        background: rgba(0, 0, 0, 0.6);
+      }
+
+      .dark .glass-input {
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .dark .glass-input:focus {
+        background: rgba(0, 0, 0, 0.5);
+      }
+
+      /* Smooth scrolling */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: rgba(59, 130, 246, 0.5);
+        border-radius: 4px;
+        backdrop-filter: blur(10px);
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(59, 130, 246, 0.7);
+      }
+
+      /* Dark mode scrollbar */
+      .dark ::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.2);
+      }
+
+      .dark ::-webkit-scrollbar-thumb {
+        background: rgba(156, 163, 175, 0.5);
+      }
+
+      .dark ::-webkit-scrollbar-thumb:hover {
+        background: rgba(156, 163, 175, 0.7);
+      }
+
+      /* Prose styling for markdown content */
+      .prose {
+        color: #374151;
+      }
+
+      .dark .prose {
+        color: #d1d5db;
+      }
+
+      .prose h1,
+      .prose h2,
+      .prose h3,
+      .prose h4,
+      .prose h5,
+      .prose h6 {
+        color: #111827;
+        font-weight: 600;
+      }
+
+      .dark .prose h1,
+      .dark .prose h2,
+      .dark .prose h3,
+      .dark .prose h4,
+      .dark .prose h5,
+      .dark .prose h6 {
+        color: #f9fafb;
+      }
+
+      .prose a {
+        color: #3b82f6;
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+        transition: border-color 0.2s;
+      }
+
+      .prose a:hover {
+        border-bottom-color: #3b82f6;
+      }
+
+      .prose code {
+        background: rgba(59, 130, 246, 0.1);
+        color: #1f2937;
+        padding: 0.2em 0.4em;
+        border-radius: 0.375rem;
+        font-size: 0.875em;
+      }
+
+      .dark .prose code {
+        background: rgba(59, 130, 246, 0.2);
+        color: #e5e7eb;
+      }
+
+      .prose pre {
+        background: rgba(0, 0, 0, 0.05);
+        color: #1f2937;
+        border-radius: 0.75rem;
+        padding: 1rem;
+        overflow-x: auto;
+        position: relative;
+      }
+
+      .dark .prose pre {
+        background: rgba(255, 255, 255, 0.05);
+        color: #e5e7eb;
+      }
+
+      .prose blockquote {
+        border-left: 4px solid #3b82f6;
+        padding-left: 1rem;
+        font-style: italic;
+        background: rgba(59, 130, 246, 0.05);
+        color: #4b5563;
+        border-radius: 0 0.5rem 0.5rem 0;
+        margin: 1rem 0;
+        padding: 1rem;
+      }
+
+      .dark .prose blockquote {
+        background: rgba(59, 130, 246, 0.1);
+        color: #d1d5db;
+      }
+
+      .prose p {
+        color: #4b5563;
+      }
+
+      .dark .prose p {
+        color: #d1d5db;
+      }
+
+      .prose li {
+        color: #4b5563;
+      }
+
+      .dark .prose li {
+        color: #d1d5db;
+      }
+
+      .prose strong {
+        color: #111827;
+      }
+
+      .dark .prose strong {
+        color: #f9fafb;
+      }
+
+      /* Use JetBrains Mono across the site */
+      html,
+      body {
+        min-height: 100%;
+      }
+      body {
+        font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+          Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        display: flex;
+        flex-direction: column;
+      }
+      main {
+        flex: 1 0 auto;
+      }
+
+      /* Desktop markdown scaling */
+      #articleContent.prose {
+        font-size: 1.06rem;
+        line-height: 1.8;
+      }
+      @media (min-width: 768px) {
+        #articleContent.prose {
+          font-size: 1.12rem;
+        }
+        #articleContent.prose h1 {
+          font-size: clamp(2rem, 2.2vw, 2.5rem);
+        }
+        #articleContent.prose h2 {
+          font-size: clamp(1.5rem, 1.6vw, 2rem);
+        }
+        #articleContent.prose h3 {
+          font-size: clamp(1.25rem, 1.2vw, 1.5rem);
+        }
+      }
+      @media (min-width: 1024px) {
+        #articleContent.prose {
+          font-size: 1.15rem;
+        }
+      }
+
+      /* Pastikan JetBrains utamanya dipakai untuk code */
+      .prose code,
+      .prose pre,
+      code,
+      pre,
+      kbd,
+      samp {
+        font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+          Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+        font-size: 0.95em;
+      }
+
+      /* Mica background for body */
+      body {
+        background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+        background-attachment: fixed;
+      }
+
+      .dark body {
+        background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+        background-attachment: fixed;
+      }
+
+      /* Focus styles for accessibility */
+      .glass-button:focus,
+      .glass-input:focus {
+        outline: 2px solid #3b82f6;
+        outline-offset: 2px;
+      }
+
+      /* Reduced motion for accessibility */
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+
+        html {
+          scroll-behavior: auto;
+        }
+      }
+
+      /* Documentation specific styles */
+      .demo-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      @media (max-width: 768px) {
+        .demo-container {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .demo-markdown {
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 8px;
+        padding: 1rem;
+        font-family: "JetBrains Mono", monospace;
+        white-space: pre-wrap;
+        overflow-x: auto;
+      }
+
+      .dark .demo-markdown {
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .demo-rendered {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        padding: 1rem;
+      }
+
+      .dark .demo-rendered {
+        background: rgba(0, 0, 0, 0.05);
+      }
+
+      .tab-button {
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.2s;
+      }
+
+      .tab-button.active {
+        background: #3b82f6;
+        color: white;
+      }
+
+      .tab-button:not(.active) {
+        background: rgba(255, 255, 255, 0.6);
+        color: #374151;
+      }
+
+      .dark .tab-button:not(.active) {
+        background: rgba(0, 0, 0, 0.4);
+        color: #d1d5db;
+      }
+
+      .dropdown-content {
+        max-height: 200px;
+        overflow-y: auto;
+      }
+
+      .example-item {
+        padding: 0.5rem;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+      }
+
+      .example-item:hover {
+        background: rgba(59, 130, 246, 0.1);
+      }
+
+      .dark .example-item:hover {
+        background: rgba(59, 130, 246, 0.2);
+      }
+    </style>
+  </head>
+  <body
+    class="font-segoe bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 min-h-screen flex flex-col transition-all duration-300"
+  >
+    <!-- Navigation -->
+    <nav
+      class="glass-nav fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-white/20 dark:bg-gray-900/20 border-b border-white/20 dark:border-gray-700/20"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex items-center space-x-4">
+            <div
+              class="glass-logo w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center"
+            >
+              <span class="text-white font-bold text-lg">LW</span>
+            </div>
+            <h1 class="text-xl font-semibold text-gray-800 dark:text-white">
+              Lab WorkSpace
+            </h1>
+          </div>
+
+          <div class="flex items-center space-x-4">
+            <!-- Navigation Dropdown -->
+            <div class="relative">
+              <button
+                id="navDropdownButton"
+                class="glass-button flex items-center gap-2 px-3 py-2 rounded-xl backdrop-blur-md bg-white/30 dark:bg-gray-800/30 border border-white/20 dark:border-gray-700/20 hover:bg-white/40 dark:hover:bg-gray-700/40 transition-all duration-200"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <svg
+                  class="w-5 h-5 text-gray-600 dark:text-gray-300"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  ></path>
+                </svg>
+                <span
+                  class="text-gray-700 dark:text-gray-200 text-sm font-medium"
+                  >Menu</span
+                >
+                <svg
+                  class="w-4 h-4 text-gray-600 dark:text-gray-300"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
+              </button>
+
+              <div
+                id="navDropdown"
+                class="absolute right-0 mt-2 w-48 glass-card rounded-xl p-2 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20 shadow-2xl hidden z-50"
+                role="menu"
+                aria-label="Navigasi utama"
+              >
+                <a
+                  href="index.html"
+                  class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-white/40 dark:hover:bg-gray-700/40 rounded-lg transition-colors"
+                  role="menuitem"
+                  >Home</a
+                >
+                <a
+                  href="about-us.html"
+                  class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-white/40 dark:hover:bg-gray-700/40 rounded-lg transition-colors"
+                  role="menuitem"
+                  >About Us</a
+                >
+                <a
+                  href="contact.html"
+                  class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-white/40 dark:hover:bg-gray-700/40 rounded-lg transition-colors"
+                  role="menuitem"
+                  >Contact</a
+                >
+                <a
+                  href="create-article.html"
+                  class="block px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-white/40 dark:hover:bg-gray-700/40 rounded-lg transition-colors"
+                  role="menuitem"
+                  >Create Article</a
+                >
+              </div>
+            </div>
+
+            <!-- Dark Mode Toggle -->
+            <button
+              id="darkModeToggle"
+              class="glass-button p-2 rounded-xl backdrop-blur-md bg-white/30 dark:bg-gray-800/30 border border-white/20 dark:border-gray-700/20 hover:bg-white/40 dark:hover:bg-gray-700/40 transition-all duration-200"
+            >
+              <svg
+                class="w-5 h-5 text-gray-600 dark:text-gray-300"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20 pb-12 flex-1">
+      <!-- Hero Section -->
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+        <div
+          class="glass-card rounded-3xl p-8 md:p-12 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20 shadow-2xl"
+        >
+          <div class="text-center">
+            <h1
+              class="text-4xl md:text-6xl font-bold text-gray-800 dark:text-white mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+            >
+              Dokumentasi Markdown
+            </h1>
+            <p
+              class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
+            >
+              Panduan lengkap fitur Markdown yang didukung di Lab WorkSpace
+              dengan contoh interaktif.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Documentation Content -->
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Introduction -->
+        <div
+          class="glass-card rounded-2xl p-6 mb-8 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20"
+        >
+          <h2 class="text-2xl font-semibold text-gray-800 dark:text-white mb-4">
+            Pengantar
+          </h2>
+          <p class="text-gray-600 dark:text-gray-300 mb-4">
+            Lab WorkSpace menggunakan <strong>Marked.js</strong> untuk merender
+            konten Markdown. Halaman ini menunjukkan semua fitur Markdown yang
+            didukung dengan contoh interaktif.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span
+              class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm"
+              >Header</span
+            >
+            <span
+              class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm"
+              >Emphasis</span
+            >
+            <span
+              class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm"
+              >Lists</span
+            >
+            <span
+              class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm"
+              >Links</span
+            >
+            <span
+              class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm"
+              >Images</span
+            >
+            <span
+              class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm"
+              >Code</span
+            >
+            <span
+              class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm"
+              >Blockquotes</span
+            >
+            <span
+              class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm"
+              >Tables</span
+            >
+            <span
+              class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm"
+              >Buttons</span
+            >
+            <span
+              class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm"
+              >Dropdowns</span
+            >
+            <span
+              class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm"
+              >Syntax Highlighting</span
+            >
+          </div>
+        </div>
+
+        <!-- Interactive Demo Section -->
+        <div
+          class="glass-card rounded-2xl p-6 mb-8 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20"
+        >
+          <h2 class="text-2xl font-semibold text-gray-800 dark:text-white mb-4">
+            Demo Interaktif
+          </h2>
+          <p class="text-gray-600 dark:text-gray-300 mb-4">
+            Gunakan tombol di bawah untuk melihat berbagai contoh Markdown dan
+            hasil render-nya.
+          </p>
+
+          <!-- Tab Buttons -->
+          <div class="flex flex-wrap gap-2 mb-4">
+            <button class="tab-button active" data-example="headers">
+              Headers
+            </button>
+            <button class="tab-button" data-example="emphasis">Emphasis</button>
+            <button class="tab-button" data-example="lists">Lists</button>
+            <button class="tab-button" data-example="links">Links</button>
+            <button class="tab-button" data-example="images">Images</button>
+            <button class="tab-button" data-example="code">Code</button>
+            <button class="tab-button" data-example="blockquotes">
+              Blockquotes
+            </button>
+            <button class="tab-button" data-example="tables">Tables</button>
+            <button class="tab-button" data-example="buttons">Buttons</button>
+            <button class="tab-button" data-example="dropdowns">
+              Dropdowns
+            </button>
+          </div>
+
+          <!-- Demo Container -->
+          <div class="demo-container">
+            <div>
+              <h3
+                class="text-lg font-semibold text-gray-800 dark:text-white mb-2"
+              >
+                Markdown Source
+              </h3>
+              <div id="markdownSource" class="demo-markdown text-sm">
+                # Header 1 ## Header 2 ### Header 3 Ini adalah **teks tebal**
+                dan *teks miring*. - Item list 1 - Item list 2 [Link ke
+                Google](https://google.com) `inline code` ``` block code ```
+              </div>
+            </div>
+            <div>
+              <h3
+                class="text-lg font-semibold text-gray-800 dark:text-white mb-2"
+              >
+                Rendered Output
+              </h3>
+              <div
+                id="renderedOutput"
+                class="demo-rendered prose prose-sm dark:prose-invert max-w-none"
+              >
+                <!-- Rendered content will be inserted here -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feature Details -->
+        <div class="grid md:grid-cols-2 gap-6">
+          <!-- Headers -->
+          <div
+            class="glass-card rounded-xl p-6 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20"
+          >
+            <h3
+              class="text-xl font-semibold text-gray-800 dark:text-white mb-3"
+            >
+              Headers
+            </h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-3">
+              Mendukung header dari level 1 sampai 6.
+            </p>
+            <div class="text-sm text-gray-500 dark:text-gray-400">
+              <strong>Contoh:</strong> # Header 1, ## Header 2, ### Header 3
+            </div>
+          </div>
+
+          <!-- Emphasis -->
+          <div
+            class="glass-card rounded-xl p-6 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20"
+          >
+            <h3
+              class="text-xl font-semibold text-gray-800 dark:text-white mb-3"
+            >
+              Emphasis
+            </h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-3">
+              Teks tebal, miring, dan kombinasi.
+            </p>
+            <div class="text-sm text-gray-500 dark:text-gray-400">
+              <strong>Contoh:</strong> **tebal**, *miring*, ***tebal miring***
+            </div>
+          </div>
+
+          <!-- Lists -->
+          <div
+            class="glass-card rounded-xl p-6 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20"
+          >
+            <h3
+              class="text-xl font-semibold text-gray-800 dark:text-white mb-3"
+            >
+              Lists
+            </h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-3">
+              Daftar berurutan dan tidak berurutan, bersarang.
+            </p>
+            <div class="text-sm text-gray-500 dark:text-gray-400">
+              <strong>Contoh:</strong> - item, 1. item, nested lists
+            </div>
+          </div>
+
+          <!-- Links -->
+          <div
+            class="glass-card rounded-xl p-6 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20"
+          >
+            <h3
+              class="text-xl font-semibold text-gray-800 dark:text-white mb-3"
+            >
+              Links
+            </h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-3">
+              Link inline dan reference style.
+            </p>
+            <div class="text-sm text-gray-500 dark:text-gray-400">
+              <strong>Contoh:</strong> [text](url), [text][ref]
+            </div>
+          </div>
+
+          <!-- Images -->
+          <div
+            class="glass-card rounded-xl p-6 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20"
+          >
+            <h3
+              class="text-xl font-semibold text-gray-800 dark:text-white mb-3"
+            >
+              Images
+            </h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-3">
+              Gambar dengan alt text dan title.
+            </p>
+            <div class="text-sm text-gray-500 dark:text-gray-400">
+              <strong>Contoh:</strong> ![alt](url "title")
+            </div>
+          </div>
+
+          <!-- Code -->
+          <div
+            class="glass-card rounded-xl p-6 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20"
+          >
+            <h3
+              class="text-xl font-semibold text-gray-800 dark:text-white mb-3"
+            >
+              Code
+            </h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-3">
+              Inline code dan code blocks dengan syntax highlighting.
+            </p>
+            <div class="text-sm text-gray-500 dark:text-gray-400">
+              <strong>Contoh:</strong> `code`, ```language code```
+            </div>
+          </div>
+
+          <!-- Blockquotes -->
+          <div
+            class="glass-card rounded-xl p-6 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20"
+          >
+            <h3
+              class="text-xl font-semibold text-gray-800 dark:text-white mb-3"
+            >
+              Blockquotes
+            </h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-3">
+              Kutipan dengan nested content.
+            </p>
+            <div class="text-sm text-gray-500 dark:text-gray-400">
+              <strong>Contoh:</strong> > quote text
+            </div>
+          </div>
+
+          <!-- Tables -->
+          <div
+            class="glass-card rounded-xl p-6 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20"
+          >
+            <h3
+              class="text-xl font-semibold text-gray-800 dark:text-white mb-3"
+            >
+              Tables
+            </h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-3">
+              Tabel dengan alignment support.
+            </p>
+            <div class="text-sm text-gray-500 dark:text-gray-400">
+              <strong>Contoh:</strong> | col1 | col2 | dengan separator
+            </div>
+          </div>
+        </div>
+
+        <!-- Advanced Features -->
+        <div
+          class="glass-card rounded-2xl p-6 mt-8 backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border border-white/20 dark:border-gray-700/20"
+        >
+          <h2 class="text-2xl font-semibold text-gray-800 dark:text-white mb-4">
+            Fitur Lanjutan
+          </h2>
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <h3
+                class="text-lg font-semibold text-gray-800 dark:text-white mb-2"
+              >
+                Syntax Highlighting
+              </h3>
+              <p class="text-gray-600 dark:text-gray-300 mb-3">
+                Code blocks dengan syntax highlighting menggunakan Highlight.js.
+              </p>
+              <div class="demo-markdown text-sm mb-2">
+                ```javascript function hello() { console.log("Hello, World!"); }
+                ```
+              </div>
+              <div
+                class="demo-rendered prose prose-sm dark:prose-invert max-w-none"
+              >
+                <pre><code class="language-javascript">function hello() {
+  console.log("Hello, World!");
+}</code></pre>
+              </div>
+            </div>
+            <div>
+              <h3
+                class="text-lg font-semibold text-gray-800 dark:text-white mb-2"
+              >
+                Strikethrough
+              </h3>
+              <p class="text-gray-600 dark:text-gray-300 mb-3">
+                Teks yang dicoret menggunakan ~~.
+              </p>
+              <div class="demo-markdown text-sm mb-2">
+                ~~strikethrough text~~
+              </div>
+              <div
+                class="demo-rendered prose prose-sm dark:prose-invert max-w-none"
+              >
+                <del>strikethrough text</del>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer
+      class="glass-card backdrop-blur-xl bg-white/20 dark:bg-gray-800/20 border-t border-white/20 dark:border-gray-700/20 py-8 mt-auto"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div
+          class="flex flex-col sm:flex-row items-center justify-between gap-4"
+        >
+          <p class="text-gray-600 dark:text-gray-300 order-2 sm:order-1">
+            © 2025 - 2026 Lab WorkSpace.
+          </p>
+          <div class="flex items-center gap-4 order-1 sm:order-2">
+            <!-- GitHub -->
+            <a
+              href="https://github.com/Qzief/lab-workspace"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="glass-button p-2 rounded-xl backdrop-blur-md bg-white/30 dark:bg-gray-800/30 border border-white/20 dark:border-gray-700/20 hover:bg-white/40 dark:hover:bg-gray-700/40 transition-all duration-200 group"
+              title="GitHub"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-github"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"
+                />
+              </svg>
+            </a>
+            <!-- Discord -->
+            <a
+              href="https://discord.com/invite/CkmzkYXqZ5"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="glass-button p-2 rounded-xl backdrop-blur-md bg-white/30 dark:bg-gray-800/30 border border-white/20 dark:border-gray-700/20 hover:bg-white/40 dark:hover:bg-gray-700/40 transition-all duration-200 group"
+              title="Discord"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-discord"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"
+                />
+              </svg>
+            </a>
+            <!-- Buy Me a Coffee -->
+            <a
+              href="https://buymeacoffee.com/qzief"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="glass-button p-2 rounded-xl backdrop-blur-md bg-white/30 dark:bg-gray-800/30 border border-white/20 dark:border-gray-700/20 hover:bg-white/40 dark:hover:bg-gray-700/40 transition-all duration-200 group"
+              title="Buy Me a Coffee"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-cup-hot"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M.5 6a.5.5 0 0 0-.488.608l1.652 7.434A2.5 2.5 0 0 0 4.104 16h5.792a2.5 2.5 0 0 0 2.44-1.958l.131-.59a3 3 0 0 0 1.3-5.854l.221-.99A.5.5 0 0 0 13.5 6zM13 12.5a2 2 0 0 1-.316-.025l.867-3.898A2.001 2.001 0 0 1 13 12.5M2.64 13.825 1.123 7h11.754l-1.517 6.825A1.5 1.5 0 0 1 9.896 15H4.104a1.5 1.5 0 0 1-1.464-1.175"
+                />
+                <path
+                  d="m4.4.8-.003.004-.014.019a4 4 0 0 0-.204.31 2 2 0 0 0-.141.267c-.026.06-.034.092-.037.103v.004a.6.6 0 0 0 .091.248c.075.133.178.272.308.445l.01.012c.118.158.26.347.37.543.112.2.22.455.22.745 0 .188-.065.368-.119.494a3 3 0 0 1-.202.388 5 5 0 0 1-.253.382l-.018.025-.005.008-.002.002A.5.5 0 0 1 3.6 4.2l.003-.004.014-.019a4 4 0 0 0 .204-.31 2 2 0 0 0 .141-.267c.026-.06.034-.092.037-.103a.6.6 0 0 0-.09-.252A4 4 0 0 0 3.6 2.8l-.01-.012a5 5 0 0 1-.37-.543A1.53 1.53 0 0 1 3 1.5c0-.188.065-.368.119-.494.059-.138.134-.274.202-.388a6 6 0 0 1 .253-.382l.025-.035A.5.5 0 0 1 4.4.8m3 0-.003.004-.014.019a4 4 0 0 0-.204.31 2 2 0 0 0-.141.267c-.026.06-.034.092-.037.103v.004a.6.6 0 0 0 .091.248c.075.133.178.272.308.445l.01.012c.118.158.26.347.37.543.112.2.22.455.22.745 0 .188-.065.368-.119.494a3 3 0 0 1-.202.388 5 5 0 0 1-.253.382l-.018.025-.005.008-.002.002A.5.5 0 0 1 6.6 4.2l.003-.004.014-.019a4 4 0 0 0 .204-.31 2 2 0 0 0 .141-.267c.026-.06.034-.092.037-.103a.6.6 0 0 0-.09-.252A4 4 0 0 0 6.6 2.8l-.01-.012a5 5 0 0 1-.37-.543A1.53 1.53 0 0 1 6 1.5c0-.188.065-.368.119-.494.059-.138.134-.274.202-.388a6 6 0 0 1 .253-.382l.025-.035A.5.5 0 0 1 7.4.8m3 0-.003.004-.014.019a4 4 0 0 0-.204.31 2 2 0 0 0-.141.267c-.026.06-.034.092-.037.103v.004a.6.6 0 0 0 .091.248c.075.133.178.272.308.445l.01.012c.118.158.26.347.37.543.112.2.22.455.22.745 0 .188-.065.368-.119.494a3 3 0 0 1-.202.388 5 5 0 0 1-.252.382l-.019.025-.005.008-.002.002A.5.5 0 0 1 9.6 4.2l.003-.004.014-.019a4 4 0 0 0 .204-.31 2 2 0 0 0 .141-.267c.026-.06.034-.092.037-.103a.6.6 0 0 0-.09-.252A4 4 0 0 0 9.6 2.8l-.01-.012a5 5 0 0 1-.37-.543A1.53 1.53 0 0 1 9 1.5c0-.188.065-.368.119-.494.059-.138.134-.274.202-.388a6 6 0 0 1 .253-.382l.025-.035A.5.5 0 0 1 10.4.8"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Navigation dropdown functionality
+      const navDropdownButton = document.getElementById("navDropdownButton");
+      const navDropdown = document.getElementById("navDropdown");
+
+      navDropdownButton.addEventListener("click", () => {
+        const isExpanded =
+          navDropdownButton.getAttribute("aria-expanded") === "true";
+        navDropdownButton.setAttribute("aria-expanded", !isExpanded);
+        navDropdown.classList.toggle("hidden");
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener("click", (e) => {
+        if (
+          !navDropdownButton.contains(e.target) &&
+          !navDropdown.contains(e.target)
+        ) {
+          navDropdownButton.setAttribute("aria-expanded", "false");
+          navDropdown.classList.add("hidden");
+        }
+      });
+
+      // Dark mode toggle
+      const darkModeToggle = document.getElementById("darkModeToggle");
+      const html = document.documentElement;
+
+      // Check for saved theme preference or default to light mode
+      const savedTheme = localStorage.getItem("theme");
+      if (
+        savedTheme === "dark" ||
+        (!savedTheme &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        html.classList.add("dark");
+      }
+
+      darkModeToggle.addEventListener("click", () => {
+        html.classList.toggle("dark");
+        const isDark = html.classList.contains("dark");
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+
+        // Update syntax highlighting theme
+        const hljsLight = document.getElementById("hljs-light");
+        const hljsDark = document.getElementById("hljs-dark");
+        if (isDark) {
+          hljsLight.disabled = true;
+          hljsDark.disabled = false;
+        } else {
+          hljsLight.disabled = false;
+          hljsDark.disabled = true;
+        }
+      });
+
+      // Markdown examples
+      const examples = {
+        headers: `# Header 1
+## Header 2
+### Header 3
+#### Header 4
+##### Header 5
+###### Header 6`,
+
+        emphasis: `Ini adalah **teks tebal**.
+
+Ini adalah *teks miring*.
+
+Ini adalah ***teks tebal dan miring***.
+
+Ini adalah ~~teks yang dicoret~~.`,
+
+        lists: `- Item tidak berurutan 1
+- Item tidak berurutan 2
+  - Sub item
+  - Sub item lainnya
+
+1. Item berurutan 1
+2. Item berurutan 2
+   1. Sub item berurutan
+   2. Sub item berurutan lainnya`,
+
+        links: `[Link inline](https://www.google.com)
+
+[Link dengan title](https://www.google.com "Kunjungi Google")
+
+[Link reference][ref]
+
+[ref]: https://www.google.com`,
+
+        images: `![Alt text untuk gambar](https://via.placeholder.com/300x200 "Title gambar")
+
+![Gambar tanpa title](https://via.placeholder.com/300x200)`,
+
+        code: `\`inline code\`
+
+\`\`\`javascript
+function hello() {
+  console.log("Hello, World!");
+}
+\`\`\`
+
+\`\`\`python
+def hello():
+    print("Hello, World!")
+\`\`\``,
+
+        blockquotes: `> Ini adalah blockquote sederhana.
+
+> Blockquote dengan multiple paragraf.
+>
+> Paragraf kedua.
+
+> Blockquote bersarang
+>> Blockquote di dalam blockquote`,
+
+        tables: `| Kolom 1 | Kolom 2 | Kolom 3 |
+|---------|---------|---------|
+| Data 1  | Data 2  | Data 3  |
+| Data 4  | Data 5  | Data 6  |
+
+| Kiri | Tengah | Kanan |
+|:-----|:------:|------:|
+| kiri | tengah | kanan |`,
+
+        buttons: `<button class="glass-button px-6 py-3 rounded-xl text-base font-semibold transition-all duration-300 hover:transform hover:scale-110 hover:shadow-2xl" onclick="alert('Button clicked!')">🚀 Launch App</button>
+
+<a href="https://github.com" class="glass-button inline-block px-6 py-3 rounded-xl text-base font-semibold transition-all duration-300 hover:transform hover:scale-110 hover:shadow-2xl" target="_blank">📁 View on GitHub</a>
+
+<button class="glass-button px-6 py-3 rounded-xl text-base font-semibold transition-all duration-300 hover:transform hover:scale-110 hover:shadow-2xl" onclick="window.open('https://example.com', '_blank')">🌐 Visit Site</button>`,
+
+        dropdowns: `<select class="glass-input px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 hover:transform hover:scale-105 focus:ring-2 focus:ring-blue-400">
+  <option value="">🎨 Choose Theme</option>
+  <option value="light">☀️ Light Mode</option>
+  <option value="dark">🌙 Dark Mode</option>
+  <option value="auto">🔄 Auto</option>
+</select>
+
+<select class="glass-input px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 hover:transform hover:scale-105 focus:ring-2 focus:ring-blue-400">
+  <option value="">📱 Select Device</option>
+  <option value="mobile">📱 Mobile</option>
+  <option value="tablet">📱 Tablet</option>
+  <option value="desktop">🖥️ Desktop</option>
+</select>
+
+<select class="glass-input px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 hover:transform hover:scale-105 focus:ring-2 focus:ring-blue-400">
+  <option value="">⚙️ Settings</option>
+  <option value="profile">👤 Profile</option>
+  <option value="notifications">🔔 Notifications</option>
+  <option value="privacy">🔒 Privacy</option>
+</select>`,
+      };
+
+      // Tab functionality
+      const tabButtons = document.querySelectorAll(".tab-button");
+      const markdownSource = document.getElementById("markdownSource");
+      const renderedOutput = document.getElementById("renderedOutput");
+
+      function updateDemo(example) {
+        let content = examples[example];
+
+        // Preprocess custom button syntax: [Button: text](url)
+        content = content.replace(
+          /\[Button: ([^\]]+)\]\(([^)]+)\)/g,
+          '<a href="$2" class="glass-button inline-block px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:transform hover:scale-105" target="_blank">$1</a>'
+        );
+
+        // Preprocess custom dropdown syntax: [Dropdown: opt1|opt2|opt3]
+        content = content.replace(
+          /\[Dropdown: ([^\]]+)\]/g,
+          function (match, options) {
+            const opts = options
+              .split("|")
+              .map((opt) => `<option>${opt.trim()}</option>`)
+              .join("");
+            return `<select class="glass-input px-3 py-2 rounded-lg text-sm">${opts}</select>`;
+          }
+        );
+
+        markdownSource.textContent = examples[example];
+        renderedOutput.innerHTML = marked.parse(content);
+        hljs.highlightAll();
+      }
+
+      tabButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          // Remove active class from all buttons
+          tabButtons.forEach((btn) => btn.classList.remove("active"));
+          // Add active class to clicked button
+          button.classList.add("active");
+          // Update demo
+          const example = button.dataset.example;
+          updateDemo(example);
+        });
+      });
+
+      // Initialize with headers example
+      updateDemo("headers");
+
+      // Initialize Marked.js options
+      marked.setOptions({
+        breaks: true,
+        gfm: true,
+      });
+    </script>
+  </body>
+</html>
