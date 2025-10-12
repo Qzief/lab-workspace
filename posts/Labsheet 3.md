@@ -7,8 +7,6 @@ author: Aruf
 excerpt: Mengimplementasi teori, konsep dan prinsip pemograman database MySQL menggunakan perintah multi tabel.
 ---
 
-# Labsheet 3 - MySQL
-
 Mengimplementasi teori, konsep dan prinsip pemograman database MySQL menggunakan perintah multi tabel.
 
 ## Buat database
@@ -282,3 +280,4 @@ JOIN ajar ON mk.kodeMK = ajar.kodeMK
 JOIN dosen ON ajar.nidn = dosen.nidn
 ORDER BY mhs.nim;
 ```
+
