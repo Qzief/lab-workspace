@@ -4,7 +4,7 @@ date: 2025-10-11
 category: UI/UX
 tags: [UIUX, Praktikum]
 author: Aruf
-excerpt: Memberi pemahaman bagi mahasiswa dan pengembang tentang nilai strategis UI/UX. Menjadi referensi untuk merancang aplikasi yang lebih ramah pengguna.
+excerpt: Memberi pemahaman bagi mahasiswa dan pengembang tentang nilai strategis UI/UX, Menjadi referensi untuk merancang aplikasi yang lebih ramah pengguna.
 ---
 
 <iframe
@@ -13,6 +13,7 @@ excerpt: Memberi pemahaman bagi mahasiswa dan pengembang tentang nilai strategis
   height="600px"
   style="border:none;">
 </iframe>
+
 
 
 
