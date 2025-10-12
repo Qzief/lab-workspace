@@ -7,9 +7,5 @@ author: Aruf
 excerpt: Memberi pemahaman bagi mahasiswa dan pengembang tentang nilai strategis UI/UX, menjadi referensi untuk merancang aplikasi yang lebih ramah pengguna.
 ---
 
-<iframe
-  src="https://github.com/Qzief/lab-workspace/blob/main/pdf/Pentingnya%20Ui_ux%20Dalam%20Pengembangan%20Aplikasi.pdf"
-  width="100%"
-  height="600px"
-  style="border:none;">
-</iframe>
+<iframe src="https://drive.google.com/file/d/1BGKUjJE2R1Ec0-DeHKHP6QoAEdDvCPn6/preview" width="640" height="480" allow="autoplay"></iframe>
+
