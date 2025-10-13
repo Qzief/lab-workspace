@@ -157,39 +157,28 @@ class BlogSystem {
 
   async loadPosts() {
     try {
-      // Get list of markdown files
-      const markdownFiles = [
-        "Labsheet 3.md",
-        "pentingnyauiuxdalampengembangaplikasi.md",
-      ];
+      // Ambil daftar file dari GitHub repo atau Netlify build
+      const response = await fetch("posts/index.json");
+      const files = await response.json();
 
       const posts = [];
-
-      for (const filename of markdownFiles) {
+      for (const filename of files) {
         try {
-          const response = await fetch(`posts/${encodeURIComponent(filename)}`);
-          if (!response.ok) continue;
-
-          const content = await response.text();
+          const res = await fetch(`posts/${encodeURIComponent(filename)}`);
+          if (!res.ok) continue;
+          const content = await res.text();
           const post = this.parseMarkdownPost(content, filename);
-          if (post) {
-            posts.push(post);
-          }
-        } catch (error) {
-          console.warn(`Failed to load ${filename}:`, error);
+          if (post) posts.push(post);
+        } catch (e) {
+          console.warn(`Gagal load ${filename}:`, e);
         }
       }
 
-      // Sort posts by date (newest first)
       this.posts = posts.sort((a, b) => new Date(b.date) - new Date(a.date));
       this.filteredPosts = [...this.posts];
-    } catch (error) {
-      console.error("Error loading posts:", error);
-      // Fallback to empty array
-      this.posts = [];
-      this.filteredPosts = [];
+    } catch (e) {
+      console.error("Gagal memuat daftar file:", e);
     }
-    // this.renderPopular();
   }
 
   parseMarkdownPost(content, filename) {
