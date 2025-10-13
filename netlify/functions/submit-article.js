@@ -10,8 +10,21 @@ exports.handler = async (event, context) => {
 
   try {
     const data = JSON.parse(event.body);
+    console.log("Received data:", data);
 
     const { nama, title, date, category, tags, excerpt, content } = data;
+    const token = process.env.GITHUB_TOKEN;
+    const buildHookUrl = process.env.NETLIFY_BUILD_HOOK;
+
+    console.log("GITHUB_TOKEN exists?", !!token);
+    console.log("NETLIFY_BUILD_HOOK exists?", !!buildHookUrl);
+
+    if (!token) {
+      throw new Error("Missing GitHub token");
+    }
+    if (!buildHookUrl) {
+      throw new Error("Missing Netlify build hook URL");
+    }
 
     // Parse tags
     const tagsArray = tags
@@ -38,49 +51,28 @@ excerpt: ${excerpt}
     // Combine frontmatter and content
     const fullContent = frontmatter + content;
 
-    // Generate filename: slugify title + date
+    // Generate filename
     const slug = title
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)/g, "");
     const filename = `${date}-${slug}.md`;
 
-    // GitHub API details
     const repo = "Qzief/lab-workspace";
     const path = `posts/${filename}`;
-    const token = process.env.GITHUB_TOKEN; // Set in Netlify env vars
     const url = `https://api.github.com/repos/${repo}/contents/${path}`;
 
-    // Check if file exists
-    let sha = null;
-    try {
-      const checkResponse = await fetch(url, {
-        headers: {
-          Authorization: `token ${token}`,
-          Accept: "application/vnd.github.v3+json",
-        },
-      });
-      if (checkResponse.ok) {
-        const fileData = await checkResponse.json();
-        sha = fileData.sha;
-      }
-    } catch (error) {
-      // File doesn't exist, sha remains null
-    }
-
-    // Encode content to base64
+    // Encode content
     const contentBase64 = Buffer.from(fullContent).toString("base64");
 
-    // Prepare commit data
+    // Commit to GitHub
     const commitData = {
       message: `Add new article: ${title}`,
       content: contentBase64,
     };
-    if (sha) {
-      commitData.sha = sha;
-    }
 
-    // Push to GitHub
+    console.log("Sending to GitHub:", url);
+
     const response = await fetch(url, {
       method: "PUT",
       headers: {
@@ -91,15 +83,16 @@ excerpt: ${excerpt}
       body: JSON.stringify(commitData),
     });
 
+    const result = await response.json();
+    console.log("GitHub response:", result);
+
     if (!response.ok) {
       throw new Error(`GitHub API error: ${response.statusText}`);
     }
 
     // Trigger Netlify build hook
-    const buildHookUrl = process.env.NETLIFY_BUILD_HOOK; // Set in Netlify env vars
-    await fetch(buildHookUrl, {
-      method: "POST",
-    });
+    console.log("Triggering build...");
+    await fetch(buildHookUrl, { method: "POST" });
 
     return {
       statusCode: 200,
@@ -109,7 +102,7 @@ excerpt: ${excerpt}
     console.error("Error:", error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: "Internal server error" }),
+      body: JSON.stringify({ error: error.message || "Internal server error" }),
     };
   }
 };
