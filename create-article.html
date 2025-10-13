@@ -1009,28 +1009,6 @@
           return;
         }
 
-        // Parse tags: split by comma and trim
-        const tagsArray = tagsInput
-          .split(",")
-          .map((tag) => tag.trim())
-          .filter((tag) => tag);
-        const tagsFormatted =
-          tagsArray.length > 0
-            ? `[${tagsArray.map((tag) => `"${tag}"`).join(", ")}]`
-            : "[]";
-
-        // Generate frontmatter
-        const frontmatter = `---
-title: ${title}
-date: ${date}
-category: ${category}
-tags: ${tagsFormatted}
-author: ${nama}
-excerpt: ${excerpt}
----
-
-`;
-
         // Show loading
         submitBtn.disabled = true;
         submitBtn.innerHTML =
@@ -1039,47 +1017,30 @@ excerpt: ${excerpt}
 
         try {
           // Read the file content
-          const fileContent = await file.text();
+          const content = await file.text();
 
-          // Prepend frontmatter to the content
-          const updatedContent = frontmatter + fileContent;
+          // Prepare data to send to Netlify function
+          const data = {
+            nama,
+            title,
+            date,
+            category,
+            tags: tagsInput,
+            excerpt,
+            content,
+          };
 
-          // Create a new file with the updated content
-          const updatedFile = new File([updatedContent], file.name, {
-            type: "text/markdown",
+          // Send to Netlify function
+          const response = await fetch("/.netlify/functions/submit-article", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
           });
 
-          // Prepare form data for Discord webhook
-          const formData = new FormData();
-          formData.append("file", updatedFile);
-          formData.append(
-            "payload_json",
-            JSON.stringify({
-              content: `Artikel baru dari **${nama}** telah dikirim dan menunggu persetujuan.`,
-              embeds: [
-                {
-                  title: title,
-                  description: `**Author:** ${nama}\n**Date:** ${date}\n**Category:** ${category}\n**Tags:** ${tagsInput}\n**Excerpt:** ${excerpt}\n**File:** ${
-                    file.name
-                  }\n\n**Frontmatter:**\n\`\`\`yaml\n${frontmatter.trim()}\n\`\`\``,
-                  color: 0x00ff00,
-                  timestamp: new Date().toISOString(),
-                },
-              ],
-            })
-          );
-
-          // Send to Discord webhook
-          const response = await fetch(
-            "https://discord.com/api/webhooks/1426874372282515496/YT1WD0_hmylFRDgSas_EnCoBHozZTCRNCHbYE6VjmEbfDDfZgFBtbv1hauTPw0ANDqqy",
-            {
-              method: "POST",
-              body: formData,
-            }
-          );
-
           if (response.ok) {
-            // Hide loading, show approval
+            // Hide loading, show success
             loadingState.classList.add("hidden");
             approvalMessage.classList.remove("hidden");
             submitBtn.innerHTML =
@@ -1095,10 +1056,11 @@ excerpt: ${excerpt}
               submitBtn.disabled = false;
             }, 3000);
           } else {
-            throw new Error("Failed to send to Discord");
+            const errorData = await response.json();
+            throw new Error(errorData.error || "Failed to submit article");
           }
         } catch (error) {
-          console.error("Error sending to Discord:", error);
+          console.error("Error submitting article:", error);
           alert("Terjadi kesalahan saat mengirim artikel. Silakan coba lagi.");
           loadingState.classList.add("hidden");
           submitBtn.innerHTML =

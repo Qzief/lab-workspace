@@ -187,36 +187,22 @@ ambilMK.kodeMK=mk.kodeMK GROUP BY mhs.nim;
 
 ### No 1
 
-Tambah data ambil matakuliah 
 ```mysql
 INSERT INTO ambilMK (nim, kodeMK, nilai) VALUES
-('1543005', '5P5257', 3),
-('1543005', '5W5247', 4),
-('1543005', '5W5250', 3),
-
-('1543006', '5W5249', 4),
-('1543006', '5W5252', 3),
-('1543006', '5P5258', 2),
-
+('1543005', '5W5250', 2),
+('1543005', '5W5249', 3),
+('1543006', '5W5250', 4),
+('1543006', '5W5251', 3),
 ('1543007', '5W5250', 3),
-('1543007', '5W5253', 4),
-('1543007', '5W5247', 3),
-
-('1543008', '5P5257', 2),
-('1543008', '5W5249', 3),
-('1543008', '5W5251', 4),
-
-('1543009', '5W5247', 3),
-('1543009', '5W5252', 2),
-('1543009', '5P5258', 4),
-
-('1543010', '5W5250', 4),
-('1543010', '5W5249', 3),
-('1543010', '5W5253', 3),
-
-('1543011', '5W5251', 3),
-('1543011', '5P5257', 4),
-('1543011', '5W5252', 2);
+('1543007', '5W5247', 2),
+('1543008', '5W5252', 3),
+('1543008', '5W5253', 4),
+('1543009', '5W5250', 4),
+('1543009', '5W5249', 3),
+('1543010', '5W5251', 4),
+('1543010', '5W5247', 2),
+('1543011', '5W5252', 3),
+('1543011', '5W5253', 4);
 ```
 
 <br>
@@ -248,27 +234,15 @@ ORDER BY mhs.nim;
 
 ### No 3
 
-Buat Tabel dosen
 ```mysql
 CREATE TABLE dosen (
 nidn VARCHAR(10) PRIMARY KEY,
 namaDosen VARCHAR(40)
 );
 ```
+
 <br>
 
-Isi data table dosen
-```mysql
-INSERT INTO dosen (nidn, namaDosen) VALUES
-('DSN001', 'Dr. Budi Santoso'),
-('DSN002', 'Ir. Siti Aminah, M.Kom'),
-('DSN003', 'Drs. Herlambang'),
-('DSN004', 'Dr. Ratna Dewi'),
-('DSN005', 'Ahmad Fajar, M.T');
-```
-<br>
-
-Buat tabel ajar
 ```mysql
 CREATE TABLE ajar (
 nidn VARCHAR(10),
@@ -277,26 +251,6 @@ PRIMARY KEY (nidn, kodeMK),
 FOREIGN KEY (nidn) REFERENCES dosen(nidn),
 FOREIGN KEY (kodeMK) REFERENCES mk(kodeMK)
 );
-```
-<br>
-
-Isi tabel ajar
-```mysql
-INSERT INTO ajar (nidn, kodeMK) VALUES
-('001', '5P5257'),
-('001', '5W5252'),
-
-('002', '5P5258'),
-('002', '5W5250'),
-
-('003', '5W5247'),
-('003', '5W5148'),
-
-('004', '5W5249'),
-('004', '5W5253'),
-
-('005', '5W5251');
-
 ```
 
 <br>
@@ -328,4 +282,3 @@ JOIN ajar ON mk.kodeMK = ajar.kodeMK
 JOIN dosen ON ajar.nidn = dosen.nidn
 ORDER BY mhs.nim;
 ```
-
