@@ -157,28 +157,45 @@ class BlogSystem {
 
   async loadPosts() {
     try {
-      // Ambil daftar file dari GitHub repo atau Netlify build
-      const response = await fetch("posts/index.json");
-      const files = await response.json();
+      // Get list of markdown files - hardcoded for static site reliability
+      async function loadPosts() {
+        const response = await fetch("posts/index.json");
+        const files = await response.json();
 
-      const posts = [];
-      for (const filename of files) {
-        try {
-          const res = await fetch(`posts/${encodeURIComponent(filename)}`);
-          if (!res.ok) continue;
+        for (const file of files) {
+          const res = await fetch(`posts/${file}`);
           const content = await res.text();
-          const post = this.parseMarkdownPost(content, filename);
-          if (post) posts.push(post);
-        } catch (e) {
-          console.warn(`Gagal load ${filename}:`, e);
+          // proses tampilkan seperti biasa
         }
       }
 
+      const posts = [];
+
+      for (const filename of markdownFiles) {
+        try {
+          const response = await fetch(`posts/${encodeURIComponent(filename)}`);
+          if (!response.ok) continue;
+
+          const content = await response.text();
+          const post = this.parseMarkdownPost(content, filename);
+          if (post) {
+            posts.push(post);
+          }
+        } catch (error) {
+          console.warn(`Failed to load ${filename}:`, error);
+        }
+      }
+
+      // Sort posts by date (newest first)
       this.posts = posts.sort((a, b) => new Date(b.date) - new Date(a.date));
       this.filteredPosts = [...this.posts];
-    } catch (e) {
-      console.error("Gagal memuat daftar file:", e);
+    } catch (error) {
+      console.error("Error loading posts:", error);
+      // Fallback to empty array
+      this.posts = [];
+      this.filteredPosts = [];
     }
+    // this.renderPopular();
   }
 
   parseMarkdownPost(content, filename) {
