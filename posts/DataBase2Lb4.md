@@ -1,3 +1,12 @@
+---
+title: MySQL Labsheet 4
+date: 2025-10-17
+category: MySql
+tags: [MySQL, Praktikum]
+author: Aruf
+excerpt: memahami dan mampu mengimplementasi teori, konsep dan prinsip Pemodelan Data Relasional.
+---
+
 ## 1. Buat database
 Buat database dengan nama alif_farma
 ```mysql
