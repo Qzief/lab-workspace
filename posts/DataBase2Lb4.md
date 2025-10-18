@@ -118,13 +118,13 @@ DELETE FROM jual WHERE kodejual='PA00005';
 UPDATE jual SET kodejual='PA00005' WHERE kodejual='PA00006';
 ```
 ## Latihan
-### a) Tampilkan kodejual, namaobat, jmljual
+### 1.a) Tampilkan kodejual, namaobat, jmljual
 ```mysql
 SELECT detailjual.kodejual, obat.namaobat, detailjual.jmljual
 FROM detailjual
 JOIN obat ON detailjual.kodeobat = obat.kodeobat;
 ```
-### b) Tampilkan kodejual, tgljual, namaobat, harga, jmljual, total
+### 1.b) Tampilkan kodejual, tgljual, namaobat, harga, jmljual, total
 ```mysql
 SELECT jual.kodejual, jual.tgljual, obat.namaobat, obat.harga,
        detailjual.jmljual, (obat.harga * detailjual.jmljual) AS total
@@ -133,11 +133,41 @@ JOIN detailjual ON jual.kodejual = detailjual.kodejual
 JOIN obat ON detailjual.kodeobat = obat.kodeobat;
 
 ```
-### c) Total penjualan per tanggal
+### 1.c) Total penjualan per tanggal
 ```mysql
 SELECT jual.tgljual, SUM(obat.harga * detailjual.jmljual) AS total_penjualan
 FROM jual
 JOIN detailjual ON jual.kodejual = detailjual.kodejual
 JOIN obat ON detailjual.kodeobat = obat.kodeobat
 GROUP BY jual.tgljual;
+```
+### 1.a) Tambahkan tabel Suplier (kodesup, namasup)
+```mysql
+CREATE TABLE suplier (
+  kodesup VARCHAR(6) PRIMARY KEY,
+  namasup VARCHAR(50)
+);
+```
+### 2.b) Tambahkan tabel beli(kodebeli, kodesup, tglbeli)
+```mysql
+CREATE TABLE beli (
+  kodebeli VARCHAR(7) PRIMARY KEY,
+  kodesup VARCHAR(6),
+  tglbeli DATE,
+  FOREIGN KEY (kodesup) REFERENCES suplier(kodesup)
+    ON DELETE CASCADE ON UPDATE CASCADE
+);
+```
+### 2.c) Tambahkan tabel detailbeli(kodebeli,kodeobat, jmlbeli)
+```mysql
+CREATE TABLE detailbeli (
+  kodebeli VARCHAR(7),
+  kodeobat VARCHAR(6),
+  jmlbeli INT,
+  PRIMARY KEY (kodebeli, kodeobat),
+  FOREIGN KEY (kodebeli) REFERENCES beli(kodebeli)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (kodeobat) REFERENCES obat(kodeobat)
+    ON DELETE CASCADE ON UPDATE CASCADE
+);
 ```
