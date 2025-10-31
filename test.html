@@ -42,7 +42,7 @@
         }
 
         // Registrasi service worker
-        const registration = await navigator.serviceWorker.register('https://qzief.github.io/lab-workspace/firebase-messaging-sw.js');
+        const registration = await navigator.serviceWorker.register('./firebase-messaging-sw.js');
         console.log('✅ Service Worker terdaftar:', registration);
 
         // Minta izin dari user
