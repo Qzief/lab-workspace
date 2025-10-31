@@ -1,0 +1,53 @@
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-messaging-compat.js"></script>
+
+<script>
+  // Konfigurasi Firebase proyek kamu
+  const firebaseConfig = {
+    apiKey: "AIzaSyD9V0fG_bgxTcgcXQCfVLpvC-kjKeZBsiw",
+    authDomain: "arufkuy-login-register.firebaseapp.com",
+    projectId: "arufkuy-login-register",
+    messagingSenderId: "334457785991",
+    appId: "1:334457785991:web:a36fcfad9436c54f4b3222"
+  };
+
+  // Inisialisasi Firebase
+  firebase.initializeApp(firebaseConfig);
+  const messaging = firebase.messaging();
+
+  // Registrasi Service Worker dari GitHub
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('https://qzief.github.io/lab-workspace/firebase-messaging-sw.js')
+      .then((registration) => {
+        console.log('✅ Service Worker terdaftar:', registration);
+
+        // Minta izin notifikasi dari pengguna
+        Notification.requestPermission().then((permission) => {
+          if (permission === 'granted') {
+            console.log('Izin notifikasi diberikan.');
+            messaging.getToken({
+              vapidKey: 'BKSYr7hRk2_CEPxzi1EOWghZlHE7DbF93dpqXzTK9D_TVYHuVCpA9dfSFr-j5jTPrBZa_ypq-E49pJz83hi3G5Y'
+            })
+            .then((token) => {
+              console.log('Token pengguna:', token);
+              alert('🎉 Notifikasi berhasil diaktifkan!');
+            })
+            .catch((err) => {
+              console.error('Gagal mendapatkan token:', err);
+            });
+          } else {
+            alert('❌ Izin notifikasi ditolak.');
+          }
+        });
+      })
+      .catch((err) => {
+        console.error('Gagal mendaftarkan Service Worker:', err);
+      });
+  }
+</script>
+
+<!-- Tombol uji coba notifikasi -->
+<button onclick="new Notification('Tes Notifikasi 🔔', {body:'Ini contoh notifikasi dari Firebase di Blogger!'})">
+Tes Notifikasi
+</button>
