@@ -37,7 +37,7 @@
           return;
         }
 
-        const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+        const registration = await navigator.serviceWorker.register('/lab-workspace/firebase-messaging-sw.js');
         messaging.useServiceWorker(registration);
 
         const token = await messaging.getToken({
