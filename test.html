@@ -58,6 +58,13 @@
           serviceWorkerRegistration: registration
         });
 
+        console.log('Support check:', {
+        sw: 'serviceWorker' in navigator,
+        push: 'PushManager' in window,
+        notif: 'Notification' in window,
+        permission: Notification.permission
+        });
+
         console.log('🎯 Token FCM:', token);
 
         // Simpan atau kirim token ke server (opsional)
