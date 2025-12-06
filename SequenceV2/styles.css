@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    --color-primary: #4f46e5;
+}
+
+/* Global Polish */
+body {
+    font-family: 'Inter', sans-serif;
+    background-image: radial-gradient(#e0e7ff 0.5px, transparent 0.5px);
+    background-size: 24px 24px;
+    background-color: #f8fafc; /* Slate-50 base */
+}
+
+/* Smooth scrolling for navigation links */
+html {
+    scroll-behavior: smooth;
+}
+
+/* --- Diagram Specific Styles --- */
+
+/* Text Interaction */
+#mermaid-graph .messageText {
+    fill: #334155; /* Slate-700 */
+    font-weight: 500;
+    transition: all 0.2s ease;
+    text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+}
+
+#mermaid-graph .messageText:hover {
+    fill: #4f46e5 !important; /* Indigo-600 */
+    text-decoration: underline;
+    font-weight: 700;
+}
+
+/* Actor Boxes */
+#mermaid-graph .actor {
+    stroke-width: 1.5px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.05));
+}
+
+/* Activation Boxes */
+#mermaid-graph .activation0,
+#mermaid-graph .activation1,
+#mermaid-graph .activation2 {
+    fill: #f1f5f9;
+    stroke: #cbd5e1;
+}
+
+/* Notes */
+#mermaid-graph .note {
+    stroke-dasharray: 0 !important; /* Solid lines for notes look cleaner */
+    filter: drop-shadow(0 2px 2px rgba(251, 146, 60, 0.1));
+}
+
+/* Label Box (Alt/Opt) */
+#mermaid-graph .labelBox {
+    stroke: #cbd5e1;
+    fill: #f8fafc;
+    opacity: 0.8;
+}
+
+/* Loop/Alt Label Text */
+#mermaid-graph .loopText,
+#mermaid-graph .labelText {
+    font-size: 11px !important;
+    font-weight: 700;
+    fill: #64748b;
+    text-transform: uppercase;
+}
+
+/* Custom Scrollbar for webkit */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Utilities */
+.active-step {
+    stroke: #4f46e5 !important;
+    stroke-width: 2px !important;
+}
+
+/* Hide standard mermaid markers if they get too messy */
+#mermaid-graph .sequenceNumber {
+    font-weight: bold;
+    font-size: 10px !important;
+}
