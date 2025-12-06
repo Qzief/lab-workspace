@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Teknis: Alur Logistik & Database</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Modules -->
+    <script type="module" src="diagram_renderer.js"></script>
+    <script type="module" src="data_manager.js"></script>
+    <script type="module" src="ui_interactions.js"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="bg-indigo-600 p-1.5 rounded-md text-white">
+                    <i data-lucide="workflow" class="w-5 h-5"></i>
+                </div>
+                <span class="font-bold text-slate-900 tracking-tight">SupplyChain<span class="text-indigo-600">Ops</span></span>
+            </div>
+            <div class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-500">
+                <a href="#overview" class="hover:text-indigo-600 transition-colors">Overview</a>
+                <a href="#diagram-section" class="hover:text-indigo-600 transition-colors">Flow Diagram</a>
+                <a href="#database-section" class="hover:text-indigo-600 transition-colors">Database</a>
+                <a href="#analysis" class="hover:text-indigo-600 transition-colors">Analisis</a>
+            </div>
+            <button id="btn-download-report" class="text-xs bg-slate-900 text-white px-3 py-2 rounded-md hover:bg-slate-800 transition-colors flex items-center gap-2">
+                <i data-lucide="file-text" class="w-3 h-3"></i> Download Report
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero / Introduction -->
+    <header id="overview" class="pt-16 pb-10 max-w-4xl mx-auto px-4 sm:px-6 text-center">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-semibold mb-6 border border-indigo-100">
+            <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+            </span>
+            System Architecture v3.0
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-6 leading-tight">
+            Integrasi Alur Barang & <br class="hidden sm:block" />
+            <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-blue-500">Arsitektur Database</span>
+        </h1>
+        <p class="text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
+            Dokumen teknis ini mencakup visualisasi alur proses (Sequence Diagram) dan spesifikasi penyimpanan data (ERD & Schema) untuk sistem manajemen rantai pasok terintegrasi.
+        </p>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 pb-20 space-y-20">
+
+        <!-- Interactive Sequence Diagram Section -->
+        <section id="diagram-section" class="scroll-mt-24">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900">1. Sequence Diagram Alur Barang</h2>
+                    <p class="text-slate-500 text-sm mt-1">Supplier &rarr; Gudang &rarr; Distributor &rarr; Pembeli</p>
+                </div>
+                <button id="btn-download-seq" class="text-xs border border-slate-200 bg-white px-3 py-2 rounded-md hover:bg-slate-50 flex items-center gap-2">
+                    <i data-lucide="image" class="w-3 h-3"></i> Export PNG
+                </button>
+            </div>
+            
+            <!-- Diagram Container -->
+            <div class="relative w-full bg-white rounded-2xl border border-slate-200 shadow-xl overflow-hidden h-[600px] flex flex-col">
+                <!-- Controls -->
+                <div class="absolute top-4 right-4 z-20 flex flex-col gap-2">
+                    <div class="bg-white/90 backdrop-blur p-1 rounded-lg shadow-lg border border-slate-200 flex flex-col">
+                        <button id="btn-zoom-in" class="p-2 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded transition-colors" title="Zoom In"><i data-lucide="plus" class="w-4 h-4"></i></button>
+                        <button id="btn-zoom-reset" class="p-2 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded transition-colors" title="Reset"><i data-lucide="maximize" class="w-4 h-4"></i></button>
+                        <button id="btn-zoom-out" class="p-2 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded transition-colors" title="Zoom Out"><i data-lucide="minus" class="w-4 h-4"></i></button>
+                    </div>
+                </div>
+                
+                <!-- Canvas -->
+                <div id="canvas-container" class="flex-1 bg-slate-50/50 cursor-grab active:cursor-grabbing overflow-hidden relative w-full h-full">
+                    <div id="loader-seq" class="absolute inset-0 flex items-center justify-center z-30 bg-white/80 backdrop-blur-sm transition-opacity">
+                        <div class="flex flex-col items-center gap-3">
+                            <div class="w-8 h-8 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+                            <span class="text-xs font-medium text-indigo-900">Merender Sequence...</span>
+                        </div>
+                    </div>
+                    <div id="diagram-wrapper" class="origin-center transition-transform duration-75 ease-out w-full h-full flex items-center justify-center p-12">
+                        <div id="mermaid-graph" class="opacity-0 transition-opacity duration-500"></div>
+                    </div>
+                </div>
+
+                <!-- Detail Overlay -->
+                <div id="interaction-card" class="absolute bottom-0 left-0 right-0 bg-white border-t border-indigo-100 p-6 transform translate-y-full transition-transform duration-300 z-30 shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.1)]">
+                    <div class="max-w-3xl mx-auto flex items-start gap-4 relative">
+                        <button id="btn-close-card" class="absolute -top-2 right-0 p-1 hover:bg-slate-100 rounded-full text-slate-400">
+                            <i data-lucide="x" class="w-4 h-4"></i>
+                        </button>
+                        <div class="bg-indigo-100 p-2 rounded-lg text-indigo-600 shrink-0 mt-1">
+                            <i data-lucide="info" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h4 id="card-title" class="text-sm font-bold text-indigo-900 uppercase tracking-wide mb-1">Detail Langkah</h4>
+                            <p id="card-desc" class="text-slate-600 text-sm leading-relaxed">Deskripsi...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Database Architecture Section -->
+        <section id="database-section" class="scroll-mt-24">
+            <div class="border-l-4 border-indigo-500 pl-6 mb-8">
+                <h2 class="text-2xl font-bold text-slate-900">2. Arsitektur Database</h2>
+                <p class="text-slate-500 mt-2">Desain skema relasional (ERD) dan manajemen data entitas.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-8">
+                
+                <!-- ERD Visualization -->
+                <div class="lg:col-span-1 bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col h-[600px]">
+                    <div class="p-4 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
+                        <h3 class="font-semibold text-slate-800 flex items-center gap-2">
+                            <i data-lucide="database" class="w-4 h-4 text-indigo-500"></i> Entity Relationship
+                        </h3>
+                    </div>
+                    <div class="flex-1 overflow-auto p-4 bg-white relative" id="erd-container">
+                         <div id="loader-erd" class="absolute inset-0 flex items-center justify-center z-30 bg-white/90 transition-opacity">
+                            <div class="w-6 h-6 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+                        </div>
+                        <div id="mermaid-erd" class="w-full h-full flex items-center justify-center"></div>
+                    </div>
+                </div>
+
+                <!-- Data Explorer -->
+                <div class="lg:col-span-2 bg-white rounded-xl border border-slate-200 shadow-sm flex flex-col h-[600px]">
+                    <div class="p-2 border-b border-slate-200 bg-slate-50 flex items-center gap-2 overflow-x-auto no-scrollbar" id="table-tabs">
+                        <!-- Tabs injected by JS -->
+                    </div>
+                    
+                    <!-- Table Toolbar -->
+                    <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-white">
+                        <div>
+                            <h3 id="active-table-name" class="font-bold text-slate-800 text-lg">Tabel: -</h3>
+                            <p id="active-table-desc" class="text-xs text-slate-500">Memuat data...</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-xs bg-indigo-50 text-indigo-700 px-2 py-1 rounded border border-indigo-100 font-mono" id="record-count">0 records</span>
+                        </div>
+                    </div>
+
+                    <!-- Table Content -->
+                    <div class="flex-1 overflow-auto relative bg-slate-50/30">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-slate-100 sticky top-0 z-10 shadow-sm">
+                                <tr id="table-header-row">
+                                    <!-- Headers injected by JS -->
+                                </tr>
+                            </thead>
+                            <tbody id="table-body" class="divide-y divide-slate-200 bg-white">
+                                <!-- Rows injected by JS -->
+                            </tbody>
+                        </table>
+                        
+                        <!-- Empty State -->
+                        <div id="empty-state" class="hidden absolute inset-0 flex flex-col items-center justify-center text-slate-400">
+                            <i data-lucide="inbox" class="w-12 h-12 mb-2 opacity-20"></i>
+                            <p class="text-sm">Tidak ada data tersedia</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Analysis Section -->
+        <section id="analysis" class="scroll-mt-24 space-y-8">
+             <div class="grid md:grid-cols-2 gap-8">
+                <div class="space-y-6">
+                    <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <i data-lucide="search" class="w-5 h-5 text-amber-500"></i>
+                        Analisis Integritas Data
+                    </h3>
+                    <ul class="space-y-4">
+                        <li class="flex gap-3">
+                            <span class="flex-none w-6 h-6 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-xs font-bold">1</span>
+                            <div class="text-sm text-slate-600">
+                                <strong class="text-slate-900 block mb-1">Relasi Stok & Gudang</strong>
+                                Tabel <code>stok_gudang</code> bertindak sebagai tabel pivot (Many-to-Many) antara <code>barang</code> dan <code>gudang</code>, memungkinkan satu SKU disimpan di multi-lokasi.
+                            </div>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="flex-none w-6 h-6 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-xs font-bold">2</span>
+                            <div class="text-sm text-slate-600">
+                                <strong class="text-slate-900 block mb-1">Audit Trail</strong>
+                                Tabel <code>penerimaan_barang</code> dan <code>pengiriman</code> mencatat riwayat transaksi masuk/keluar, memisahkan data operasional dari master data stok.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                 <div class="space-y-6">
+                    <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <i data-lucide="shield-check" class="w-5 h-5 text-emerald-500"></i>
+                        Rekomendasi Indexing
+                    </h3>
+                    <div class="bg-slate-800 text-slate-300 p-4 rounded-lg font-mono text-xs overflow-x-auto shadow-inner">
+                        <p class="text-emerald-400 mb-2">-- Performance Optimization SQL</p>
+                        <p>CREATE INDEX idx_stok_barang ON stok_gudang(id_barang);</p>
+                        <p>CREATE INDEX idx_pengiriman_date ON pengiriman(tanggal);</p>
+                        <p>CREATE INDEX idx_penerimaan_supp ON penerimaan_barang(id_supplier);</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <section id="conclusion" class="bg-slate-900 text-slate-300 rounded-2xl p-8 md:p-12 text-center relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 via-blue-500 to-emerald-500"></div>
+            <div class="relative z-10 max-w-2xl mx-auto">
+                <h2 class="text-2xl font-bold text-white mb-4">Kesimpulan Sistem</h2>
+                <p class="mb-8 leading-relaxed">
+                    Kombinasi alur sekuensial yang jelas dan skema database yang ternormalisasi (3NF) menjamin konsistensi data di seluruh rantai pasok. Struktur ini mendukung skalabilitas untuk multi-gudang dan multi-distributor.
+                </p>
+                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white font-medium rounded-full hover:bg-indigo-500 transition-transform active:scale-95">
+                    Kembali ke Atas <i data-lucide="arrow-up" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-8 text-center">
+        <p class="text-sm text-slate-400">
+            &copy; 2025 Supply Chain Engineering Dept. Generated for Process Optimization Review.
+        </p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
