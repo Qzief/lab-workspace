@@ -1,0 +1,42 @@
+/* Custom Reset & Base */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Diagram Container Styles */
+.mermaid-container {
+    min-height: 300px;
+    align-items: center;
+}
+
+/* Mermaid SVG Customization Overrides */
+/* Note: Most styling is done via Mermaid config in JS, but we can target the SVG wrapper here */
+svg {
+    max-width: 100%;
+    height: auto !important;
+}
+
+/* Animation Classes */
+.diagram-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Scrollbar styling for horizontal scrolling diagrams on mobile */
+.mermaid-container::-webkit-scrollbar {
+    height: 6px;
+}
+
+.mermaid-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.mermaid-container::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 20px;
+}

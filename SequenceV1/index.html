@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagram Urutan Proses Supply Chain</title>
+    
+    <!-- Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            900: '#0c4a6e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-gray-50 text-slate-800 antialiased selection:bg-brand-100 selection:text-brand-900">
+
+    <!-- Header -->
+    <header class="w-full bg-white/80 backdrop-blur-md border-b border-slate-100 sticky top-0 z-50 transition-all duration-300">
+        <div class="max-w-5xl mx-auto px-6 py-6 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <i data-lucide="network" class="text-brand-500 w-6 h-6"></i>
+                <h1 class="text-xl font-medium tracking-tight text-slate-900">SupplyChain<span class="text-brand-500 font-bold">Flow</span></h1>
+            </div>
+            <nav class="hidden md:flex gap-6 text-sm font-medium text-slate-500">
+                <a href="#diagram-1" class="hover:text-brand-500 transition-colors">Supplier</a>
+                <a href="#diagram-2" class="hover:text-brand-500 transition-colors">Gudang</a>
+                <a href="#diagram-3" class="hover:text-brand-500 transition-colors">Pembeli</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-6 py-12">
+        
+        <!-- Introduction -->
+        <section class="mb-16 text-center max-w-2xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-semibold mb-6 tracking-tight text-slate-900">Diagram Urutan Proses Supply Chain</h2>
+            <p class="text-slate-600 leading-relaxed text-lg">
+                Visualisasi alur kerja sistem manajemen rantai pasok mulai dari penerimaan barang dari supplier, pengelolaan di gudang, hingga distribusi ke pembeli akhir.
+            </p>
+        </section>
+
+        <!-- Diagram 1 -->
+        <section id="diagram-1" class="diagram-section mb-20 opacity-0 translate-y-4 transition-all duration-700">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-8 h-8 rounded-full bg-brand-50 flex items-center justify-center text-brand-500 font-bold text-sm">1</div>
+                <h3 class="text-xl font-medium text-slate-800">Barang Masuk: Supplier → Gudang</h3>
+            </div>
+            <div class="diagram-card bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-md transition-shadow duration-300 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-500 to-blue-400"></div>
+                <div class="mermaid-container flex justify-center w-full overflow-x-auto" id="render-1">
+                    <!-- Mermaid Render Target -->
+                    <div class="loading-pulse w-full h-64 bg-slate-50 rounded-lg animate-pulse"></div>
+                </div>
+            </div>
+            <p class="mt-4 text-sm text-slate-500 pl-12 max-w-3xl">
+                Proses validasi dan pencatatan barang yang masuk dari supplier, termasuk penanganan retur jika barang tidak sesuai spesifikasi.
+            </p>
+        </section>
+
+        <!-- Diagram 2 -->
+        <section id="diagram-2" class="diagram-section mb-20 opacity-0 translate-y-4 transition-all duration-700 delay-100">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-8 h-8 rounded-full bg-brand-50 flex items-center justify-center text-brand-500 font-bold text-sm">2</div>
+                <h3 class="text-xl font-medium text-slate-800">Distribusi: Gudang → Distributor</h3>
+            </div>
+            <div class="diagram-card bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-md transition-shadow duration-300 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 to-cyan-400"></div>
+                <div class="mermaid-container flex justify-center w-full overflow-x-auto" id="render-2">
+                    <div class="loading-pulse w-full h-64 bg-slate-50 rounded-lg animate-pulse"></div>
+                </div>
+            </div>
+            <p class="mt-4 text-sm text-slate-500 pl-12 max-w-3xl">
+                Mekanisme pemindahan barang dari gudang utama ke distributor, dilengkapi pengecekan kondisi fisik barang sebelum konfirmasi.
+            </p>
+        </section>
+
+        <!-- Diagram 3 -->
+        <section id="diagram-3" class="diagram-section mb-20 opacity-0 translate-y-4 transition-all duration-700 delay-200">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-8 h-8 rounded-full bg-brand-50 flex items-center justify-center text-brand-500 font-bold text-sm">3</div>
+                <h3 class="text-xl font-medium text-slate-800">Penjualan: Distributor → Pembeli</h3>
+            </div>
+            <div class="diagram-card bg-white rounded-2xl p-8 shadow-sm border border-slate-100 hover:shadow-md transition-shadow duration-300 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-400 to-teal-400"></div>
+                <div class="mermaid-container flex justify-center w-full overflow-x-auto" id="render-3">
+                    <div class="loading-pulse w-full h-64 bg-slate-50 rounded-lg animate-pulse"></div>
+                </div>
+            </div>
+            <p class="mt-4 text-sm text-slate-500 pl-12 max-w-3xl">
+                Alur akhir pemesanan oleh pembeli dan proses pengiriman yang difasilitasi oleh sistem.
+            </p>
+        </section>
+
+    </main>
+
+    <footer class="bg-white border-t border-slate-100 py-12">
+        <div class="max-w-5xl mx-auto px-6 text-center">
+            <p class="text-slate-400 text-sm">© 2025 SupplyChainFlow. Designed for Clarity.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script type="module" src="app.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
